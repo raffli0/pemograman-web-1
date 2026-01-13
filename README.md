@@ -42,5 +42,4 @@ ukm-asset-access-manager/
     - **Platform Owner**: `super@saas.com` / `123456`
     - **New Organizations**: Register via the "Register Organization" link on the login page.
 
-## License
-Copyright by NIM_Name_Class
+
