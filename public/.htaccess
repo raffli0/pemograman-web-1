@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteBase /ukm/public/
+
+# Redirect everything to index.php if it's not a real file or directory
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [L]

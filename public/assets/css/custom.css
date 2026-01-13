@@ -1,0 +1,250 @@
+/* Human-Centric SaaS CSS */
+
+/* Global - Typography & Spacing */
+body {
+    background-color: #f7f9fc;
+    /* Softer cool grey */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.925rem;
+    /* Slightly larger for readability */
+    color: #4b5563;
+    /* Softer text than pure black */
+    line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #1f2937;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    /* Tight, modern headers */
+}
+
+a {
+    text-decoration: none;
+    color: #2563eb;
+    transition: color 0.15s;
+}
+
+a:hover {
+    color: #1d4ed8;
+}
+
+/* Sidebar - Functional & Distinct */
+.sidebar {
+    background-color: #1e293b;
+    /* Deep slate */
+    min-height: 100vh;
+    width: 250px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding-top: 1.5rem;
+    z-index: 1000;
+    box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-title {
+    color: #f1f5f9;
+    padding: 0 1.5rem 1.5rem;
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #334155;
+    letter-spacing: -0.01em;
+}
+
+.sidebar-label {
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    font-weight: 700;
+    padding: 1rem 1.75rem 0.5rem;
+    display: block;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    color: #94a3b8;
+    padding: 0.65rem 1.75rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-link:hover {
+    color: #e2e8f0;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-link.active {
+    color: #ffffff;
+    background-color: rgba(37, 99, 235, 0.1);
+    border-left-color: #3b82f6;
+    /* Bright Blue Accent */
+}
+
+/* Layout */
+.main-content {
+    margin-left: 250px;
+    padding: 2.5rem 3rem;
+    min-height: 100vh;
+}
+
+/* Cards - Contextual & Alive */
+.card-simple {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    /* Slightly softer */
+    padding: 1.5rem;
+    margin-bottom: 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    /* Subtle interactions */
+}
+
+.card-simple:hover {
+    /* No movement, just subtle shadow hint */
+    border-color: #cbd5e1;
+}
+
+/* Dashboard Stats Typography */
+.display-6 {
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+/* Tables - Workflow Oriented */
+.table-uc {
+    width: 100%;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-uc th {
+    background-color: #f8fafc;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    border-top: 1px solid #e2e8f0;
+}
+
+.table-uc th:first-child {
+    border-left: 1px solid #e2e8f0;
+    border-top-left-radius: 8px;
+}
+
+.table-uc th:last-child {
+    border-right: 1px solid #e2e8f0;
+    border-top-right-radius: 8px;
+}
+
+.table-uc td {
+    padding: 0.85rem 1rem;
+    color: #334155;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.9rem;
+}
+
+.table-uc tr:last-child td {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table-uc tbody tr:hover td {
+    background-color: #f8fafc;
+    /* Subtle highlight */
+}
+
+/* Workflow Badges */
+.badge {
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 600;
+    border-radius: 4px;
+    letter-spacing: -0.01em;
+}
+
+.bg-success {
+    background-color: #dcfce7 !important;
+    color: #166534;
+}
+
+.bg-warning {
+    background-color: #fef9c3 !important;
+    color: #854d0e;
+}
+
+.bg-danger {
+    background-color: #fee2e2 !important;
+    color: #991b1b;
+}
+
+.bg-primary {
+    background-color: #dbeafe !important;
+    color: #1e40af;
+}
+
+.bg-secondary {
+    background-color: #f1f5f9 !important;
+    color: #475569;
+}
+
+/* Timeline / Activity Feed */
+.timeline-item {
+    padding-left: 1.5rem;
+    position: relative;
+    padding-bottom: 1.25rem;
+    border-left: 2px solid #e2e8f0;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+    border-left-color: transparent;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -5px;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #cbd5e1;
+    border: 2px solid #fff;
+}
+
+.timeline-item.active .timeline-dot {
+    background-color: #3b82f6;
+}
+
+/* Footer */
+.site-footer {
+    text-align: right;
+    padding: 2rem 0;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    margin-top: 3rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Auth Page Footer Override */
+.auth-wrapper .site-footer {
+    text-align: center;
+    border-top: none;
+    margin-top: 1.5rem;
+    padding-top: 0;
+    color: #6c757d;
+}
