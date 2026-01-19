@@ -270,7 +270,7 @@ function handleAssetSubmit(e) {
                 document.getElementById('assetModal').classList.add('hidden');
                 loadAssets();
             } else {
-                alert('Error: ' + (data.message || 'Unknown error'));
+                showToast('Error: ' + (data.message || 'Unknown error'), 'error');
             }
         })
         .catch(error => console.error('Error:', error));
@@ -290,7 +290,7 @@ function deleteAsset(id) {
             if (data.status === 'success') {
                 loadAssets();
             } else {
-                alert('Error: ' + (data.message || 'Unknown error'));
+                showToast('Error: ' + (data.message || 'Unknown error'), 'error');
             }
         })
         .catch(error => console.error('Error:', error));
@@ -327,10 +327,10 @@ function handleBorrowSubmit(e) {
             if (data.status === 'success') {
                 document.getElementById('borrowModal').classList.add('hidden');
                 document.getElementById('borrowForm').reset();
-                alert('Borrow request submitted successfully!');
+                showToast('Borrow request submitted successfully!', 'success');
                 loadAssets();
             } else {
-                alert('Error: ' + (data.message || 'Unknown error'));
+                showToast('Error: ' + (data.message || 'Unknown error'), 'error');
             }
         })
         .catch(error => console.error('Error:', error));
@@ -338,7 +338,7 @@ function handleBorrowSubmit(e) {
 // Export to CSV
 function exportToCSV() {
     if (!filteredAssets || filteredAssets.length === 0) {
-        alert('No assets to export.');
+        showToast('No assets to export.', 'warning');
         return;
     }
 

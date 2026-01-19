@@ -173,7 +173,7 @@ async function submitVerification() {
             loadRequests(true); // reload as admin
         }
     } catch (err) {
-        alert(err.message);
+        showToast(err.message, 'error');
     } finally {
         btn.disabled = false;
         btn.innerHTML = 'Verify & Restock';
@@ -203,7 +203,7 @@ async function updateReqStatus(id, action) {
             loadRequests(isAdmin);
         }
     } catch (err) {
-        alert(err.message);
+        showToast(err.message, 'error');
     }
 }
 
@@ -244,10 +244,10 @@ async function handleReturnSubmit(e) {
             document.getElementById('returnSubmitForm').reset();
             loadRequests(typeof window.isAdmin !== 'undefined' ? window.isAdmin : false);
         } else {
-            alert(res.message);
+            showToast(res.message, 'error');
         }
     } catch (err) {
-        alert(err.message);
+        showToast(err.message, 'error');
     } finally {
         btn.disabled = false;
         btn.innerHTML = 'Submit Return';

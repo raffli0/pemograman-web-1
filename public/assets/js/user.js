@@ -130,7 +130,7 @@ async function handleUserSubmit(e) {
             loadUsers();
         }
     } catch (err) {
-        alert(err.message);
+        showToast(err.message, 'error');
     } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;

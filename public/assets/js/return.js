@@ -128,7 +128,7 @@ async function submitVerification() {
             loadReturns();
         }
     } catch (err) {
-        alert(err.message);
+        showToast(err.message, 'error');
     } finally {
         btn.disabled = false;
         btn.innerHTML = 'Verify & Restock';

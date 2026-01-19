@@ -87,3 +87,4 @@ $user = $user ?? AuthMiddleware::authenticate(); // Ensure user is available
         </button>
     </div>
 </aside>
+<script src="../assets/js/ui.js"></script>

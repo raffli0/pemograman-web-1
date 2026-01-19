@@ -49,7 +49,7 @@ async function toggleOrgStatus(id, newStatus) {
         await fetchAPI('/organization/updateStatus', 'POST', { id, status: newStatus });
         loadOrganizations();
     } catch (err) {
-        alert(err.message);
+        showToast(err.message, 'error');
     }
 }
 
@@ -68,8 +68,8 @@ if (registerForm) {
         try {
             const res = await fetchAPI('/auth/registerOrg', 'POST', data);
             if (res.status === 'success') {
-                alert('Organization registered successfully. Please login.');
-                window.location.href = 'login.php';
+                showToast('Organization registered successfully. Please login.', 'success');
+                setTimeout(() => window.location.href = 'login.php', 2000);
             }
         } catch (err) {
             document.getElementById('error-msg').textContent = err.message;
