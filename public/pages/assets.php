@@ -221,6 +221,9 @@ $isAdmin = ($user['role'] === 'org_admin');
                 </div>
 
             </div>
+            <div class="py-6 text-center">
+                <?php include 'footer.php'; ?>
+            </div>
     </main>
 
     <!-- Asset Modal -->

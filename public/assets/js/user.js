@@ -1,20 +1,29 @@
 /**
  * user.js
- * Logic for Users management page
+ * Manages the User Management interface for Organization Admins.
+ * Handles listing users, searching/filtering, and creating new users.
  */
 
-let users = [];
-let filteredUsers = [];
+// --- State Management ---
+let users = [];         // Full list of users fetched from API
+let filteredUsers = []; // List currently displayed after filtering
 
+/**
+ * Initialization
+ * Loads users and sets up event listeners.
+ */
 document.addEventListener('DOMContentLoaded', function () {
     loadUsers();
 
-    // Event Listeners
+    // --- Event Listeners ---
     document.getElementById('searchInput')?.addEventListener('input', filterUsers);
     document.getElementById('tableSearchInput')?.addEventListener('input', filterUsers);
     document.getElementById('userForm')?.addEventListener('submit', handleUserSubmit);
 });
 
+/**
+ * Fetches the user list from the API.
+ */
 async function loadUsers() {
     try {
         const res = await fetchAPI('/auth/getUsers');
@@ -29,6 +38,9 @@ async function loadUsers() {
     }
 }
 
+/**
+ * Renders the users table with role badges and actions.
+ */
 function displayUsers() {
     const tbody = document.getElementById('userTableBody');
     if (!tbody) return;
@@ -38,7 +50,7 @@ function displayUsers() {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50/50 transition-colors group';
 
-        // Role Badge Style
+        // --- Role Badge Logic ---
         let roleBadge = '';
         if (user.role === 'org_admin') {
             roleBadge = '<span class="px-2 py-0.5 bg-primary/5 text-primary text-[10px] font-black rounded uppercase tracking-wider border border-primary/10">Administrator</span>';
@@ -77,6 +89,9 @@ function displayUsers() {
     updatePagination();
 }
 
+/**
+ * Updates the dashboard statistics counters (Total Members, Admins, Recent Joins).
+ */
 function updateStats() {
     const total = users.length;
     const admins = users.filter(u => u.role === 'org_admin').length;
@@ -95,6 +110,9 @@ function updateStats() {
     if (elRecent) animateCounter(elRecent, recent);
 }
 
+/**
+ * Filters the user list based on search input.
+ */
 function filterUsers() {
     const headerSearch = document.getElementById('searchInput')?.value.toLowerCase() || '';
     const tableSearch = document.getElementById('tableSearchInput')?.value.toLowerCase() || '';
@@ -108,6 +126,9 @@ function filterUsers() {
     displayUsers();
 }
 
+/**
+ * Handles the creation of a new user.
+ */
 async function handleUserSubmit(e) {
     e.preventDefault();
     const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -128,6 +149,7 @@ async function handleUserSubmit(e) {
             document.getElementById('userModal').classList.add('hidden');
             document.getElementById('userForm').reset();
             loadUsers();
+            showToast('User created successfully', 'success');
         }
     } catch (err) {
         showToast(err.message, 'error');
@@ -137,6 +159,9 @@ async function handleUserSubmit(e) {
     }
 }
 
+/**
+ * Updates the pagination text info.
+ */
 function updatePagination() {
     const info = document.getElementById('paginationInfo');
     if (!info) return;
@@ -144,13 +169,20 @@ function updatePagination() {
     info.textContent = `Showing ${count > 0 ? '1 to ' + Math.min(10, count) : '0'} of ${count} entries`;
 }
 
-// Helpers
+// --- Helpers ---
+
+/**
+ * Formats a date string to specific locale format.
+ */
 function formatDate(dateString) {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
+/**
+ * Animates a number counting up from 0 to target.
+ */
 function animateCounter(el, target) {
     let curr = 0;
     const step = Math.ceil(target / 20) || 1;

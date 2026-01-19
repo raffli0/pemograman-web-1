@@ -7,12 +7,8 @@ $user = $user ?? AuthMiddleware::authenticate(); // Ensure user is available
 <!-- Sidebar Navigation -->
 <aside class="w-64 flex-shrink-0 flex flex-col border-r border-slate-200 bg-white sticky top-0 h-screen">
     <div class="p-6 flex items-center gap-3">
-        <!-- <div class="bg-primary size-10 rounded-lg flex items-center justify-center text-white">
-            <span class="material-symbols-outlined">school</span>
-        </div> -->
         <div>
-            <h1 class="text-primary font-bold text-lg leading-tight">Assets Management System</h1>
-            <!-- <p class="text-xs text-slate-500 font-medium">Workflow Management</p> -->
+            <h1 class="text-primary font-bold text-lg leading-tight">Asset Responsibility System</h1>
         </div>
     </div>
 
@@ -87,4 +83,4 @@ $user = $user ?? AuthMiddleware::authenticate(); // Ensure user is available
         </button>
     </div>
 </aside>
-<script src="../assets/js/ui.js"></script>
+<script src="/ukm/public/assets/js/ui.js?v=<?php echo time(); ?>"></script>

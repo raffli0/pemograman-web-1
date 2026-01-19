@@ -173,6 +173,10 @@ if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
                 </div>
 
             </div>
+
+        </div>
+        <div class="py-6 text-center">
+            <?php include 'footer.php'; ?>
         </div>
     </main>
 
@@ -186,7 +190,7 @@ if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
             if (format === 'csv') {
                 // Direct link to API endpoint triggers download
                 window.location.href = `/ukm/public/api/report/exportCsv?${params.toString()}`;
-            } else if (format === 'print') {
+            } el  se if (format === 'print') {
                 // Open print view in new tab
                 window.open(`print_report.php?${params.toString()}`, '_blank');
             }

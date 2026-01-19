@@ -134,7 +134,9 @@ RoleMiddleware::authorize(['org_admin']);
             </div>
         </div>
 
-        <?php include 'footer.php'; ?>
+        <div class="text-center">
+            <?php include 'footer.php'; ?>
+        </div>
     </main>
 
     <!-- Verify Return Modal -->

@@ -1,0 +1,1 @@
+<p class="text-sm text-slate-500 font-medium">@Copyright by 23552011278_Raffly_23 CNS A</p>

@@ -189,7 +189,9 @@ $isAdmin = ($user['role'] === 'org_admin');
             </div>
         </div>
 
-        <?php include 'footer.php'; ?>
+        <div class="py-6 text-center">
+            <?php include 'footer.php'; ?>
+        </div>
     </main>
 
     <!-- User Modal -->

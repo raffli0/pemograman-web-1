@@ -1,18 +1,30 @@
 /**
  * borrow.js
- * Handles Borrow Requests with Dashboard UI matching
+ * Manages the Borrow Requests interface for both Admins and Members.
+ * Handles request listing, approval workflows, return submissions, and admin verification.
  */
 
-let requests = [];
-let filteredRequests = [];
+// --- State Management ---
+let requests = [];          // All borrow requests loaded from API
+let filteredRequests = [];  // Requests currently displayed after filtering
 
+/**
+ * Initialization
+ * Sets up global event listeners and initial data load.
+ */
 document.addEventListener('DOMContentLoaded', function () {
-    // Setup event listeners
+    // --- Event Listeners ---
     document.getElementById('searchInput')?.addEventListener('input', filterRequests);
     document.getElementById('tableFilter')?.addEventListener('input', filterRequests);
+
+    // Return Submission Form (Member Action)
     document.getElementById('returnSubmitForm')?.addEventListener('submit', handleReturnSubmit);
 });
 
+/**
+ * Fetches borrow requests from the API.
+ * @param {boolean} isAdmin - Flag to determine which UI elements to render (handled in display)
+ */
 async function loadRequests(isAdmin) {
     const tbody = document.getElementById('borrowTableBody');
     if (!tbody) return;
@@ -29,6 +41,11 @@ async function loadRequests(isAdmin) {
     }
 }
 
+/**
+ * Renders the list of borrow requests into the table.
+ * Contains logic for Status Badges and Action Buttons based on User Role.
+ * @param {boolean} isAdmin - Controls visibility of Admin actions (Approve, Reject, Verify)
+ */
 function displayRequests(isAdmin) {
     const tbody = document.getElementById('borrowTableBody');
     if (!tbody) return;
@@ -43,7 +60,7 @@ function displayRequests(isAdmin) {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50/50 transition-colors group';
 
-        // Status badge logic
+        // --- Status Badge Styling ---
         let statusBadge = '';
         let badgeStyle = '';
         switch (req.status) {
@@ -72,8 +89,10 @@ function displayRequests(isAdmin) {
                 statusBadge = req.status.toUpperCase();
         }
 
+        // --- Action Buttons Logic ---
         let actions = '';
         if (isAdmin && req.status === 'pending') {
+            // Admin: Approve / Reject
             actions = `
                 <div class="flex items-center justify-end gap-2">
                     <button onclick="updateReqStatus(${req.id}, 'approve')" class="px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-[10px] font-black uppercase tracking-wider hover:bg-emerald-600 transition-colors shadow-sm">Approve</button>
@@ -81,18 +100,21 @@ function displayRequests(isAdmin) {
                 </div>
             `;
         } else if (isAdmin) {
+            // Admin: Visual Indicator for non-pending
             actions = `
                 <div class="flex items-center justify-end text-slate-300">
                     <span class="material-symbols-outlined text-lg">verified</span>
                 </div>
             `;
         } else if (!isAdmin && req.status === 'approved') {
+            // Member: Submit Return
             actions = `
                 <div class="flex items-center justify-end">
                     <button onclick="openReturnModal(${req.id})" class="px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-[10px] font-black uppercase tracking-wider hover:bg-primary hover:text-white transition-all shadow-sm">Submit Return</button>
                 </div>
             `;
         } else if (isAdmin && req.status === 'returning') {
+            // Admin: Inspect Return (Alternative entry point)
             actions = `
                 <div class="flex items-center justify-end gap-2">
                     <button onclick='openVerifyModal(${JSON.stringify(req).replace(/'/g, "&apos;")})' class="px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-[10px] font-black uppercase tracking-wider hover:bg-primary hover:text-white transition-all shadow-sm flex items-center gap-1">
@@ -102,6 +124,7 @@ function displayRequests(isAdmin) {
             `;
         }
 
+        // --- Table Row Content ---
         tr.innerHTML = `
             <td class="py-4 px-8">
                 <div class="flex items-center gap-3">
@@ -137,17 +160,22 @@ function displayRequests(isAdmin) {
     updatePagination();
 }
 
+/**
+ * Opens the Admin Verification Modal.
+ * Populates it with return details (notes, images) for inspection.
+ * @param {Object} req - The request object
+ */
 function openVerifyModal(req) {
     document.getElementById('verifyRequestId').value = req.id;
     document.getElementById('verifyBorrowerName').textContent = req.user_name || '-';
     document.getElementById('verifyAssetName').textContent = req.asset_name || '-';
     document.getElementById('verifyDuration').textContent = `${req.start_date} -> ${req.end_date}`;
 
-    // Note
+    // Populate User Note
     const noteEl = document.getElementById('verifyUserNote');
     noteEl.textContent = req.return_note ? `"${req.return_note}"` : "No remarks provided.";
 
-    // Image
+    // Populate Proof Image
     const proofCont = document.getElementById('verifyProofContainer');
     if (req.return_proof_image) {
         proofCont.innerHTML = `<img src="/ukm/public/${req.return_proof_image}" class="w-full h-auto object-cover" alt="Proof">`;
@@ -158,6 +186,9 @@ function openVerifyModal(req) {
     document.getElementById('verifyReturnModal').classList.remove('hidden');
 }
 
+/**
+ * Submits the Admin's verification decision (Finalize Return).
+ */
 async function submitVerification() {
     const id = document.getElementById('verifyRequestId').value;
     const adminNote = document.getElementById('verifyAdminNote').value;
@@ -180,7 +211,9 @@ async function submitVerification() {
     }
 }
 
-// ... existing filterRequests ...
+/**
+ * Filters the request list based on search input (User Name, Asset Name, Status).
+ */
 function filterRequests() {
     const headerQuery = document.getElementById('searchInput')?.value.toLowerCase() || '';
     const filterQuery = document.getElementById('tableFilter')?.value.toLowerCase() || '';
@@ -196,6 +229,9 @@ function filterRequests() {
     displayRequests(isAdmin);
 }
 
+/**
+ * Updates the status of a request (Approved/Rejected) by Admin.
+ */
 async function updateReqStatus(id, action) {
     try {
         const res = await fetchAPI(`/borrow/${action}`, 'POST', { id });
@@ -207,11 +243,18 @@ async function updateReqStatus(id, action) {
     }
 }
 
+/**
+ * Opens the Return Submission modal for members.
+ * @param {number} id - Request ID
+ */
 function openReturnModal(id) {
     document.getElementById('returnBorrowId').value = id;
     document.getElementById('returnSubmitModal').classList.remove('hidden');
 }
 
+/**
+ * Handles the member's return submission (Image upload + Condition note).
+ */
 async function handleReturnSubmit(e) {
     e.preventDefault();
     const id = document.getElementById('returnBorrowId').value;
@@ -231,7 +274,7 @@ async function handleReturnSubmit(e) {
             formData.append('return_proof', fileInput.files[0]);
         }
 
-        // Use fetch directly for FormData to avoid Content-Type issues with Auth wrapper if it forces json
+        // Use fetch directly for FormData to avoid Content-Type issues with Auth wrapper
         const response = await fetch('/ukm/public/api/borrow/submitReturn', {
             method: 'POST',
             body: formData
@@ -254,10 +297,14 @@ async function handleReturnSubmit(e) {
     }
 }
 
+/**
+ * Updates pagination text.
+ */
 function updatePagination() {
     const info = document.getElementById('paginationInfo');
     if (!info) return;
     const count = filteredRequests.length;
     info.textContent = `Showing ${count > 0 ? '1 to ' + count : '0'} of ${count} entries`;
 }
+
 

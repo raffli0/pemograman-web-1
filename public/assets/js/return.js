@@ -1,26 +1,38 @@
 /**
  * return.js
- * Handles Asset Returns with Dashboard UI matching
+ * Manages the "Verification" page for Admins.
+ * Focused specifically on processing items that have been submitted for return.
  */
 
-let returnRequests = [];
-let filteredReturns = [];
+// --- State Management ---
+let returnRequests = [];     // List of requests with status 'returning'
+let filteredReturns = [];    // Filtered subset for display
 
+/**
+ * Initialization
+ * Sets up event listeners for search and filtration upon DOM load.
+ */
 document.addEventListener('DOMContentLoaded', function () {
-    // Setup event listeners
+    // --- Event Listeners ---
     document.getElementById('searchInput')?.addEventListener('input', filterReturns);
     document.getElementById('tableFilter')?.addEventListener('input', filterReturns);
+    // Note: 'returnForm' listener might be legacy or for a different modal, but kept for safety if used
     document.getElementById('returnForm')?.addEventListener('submit', handleReturnSubmit);
 });
 
+/**
+ * Loads pending return requests from the API.
+ * Reuses the borrow index endpoint but filters client-side for 'returning' status.
+ * (Improvement: dedicated API endpoint '/borrow/returns' would be better for performance)
+ */
 async function loadReturns() {
     const tbody = document.getElementById('returnsTableBody');
     if (!tbody) return;
 
     try {
-        // Reuse borrow index but filter for items submitted for return
         const res = await fetchAPI('/borrow/index');
         if (res.status === 'success') {
+            // Filter: Only show items awaiting verification
             returnRequests = res.data.filter(r => r.status === 'returning');
             filteredReturns = returnRequests;
             displayReturns();
@@ -30,6 +42,9 @@ async function loadReturns() {
     }
 }
 
+/**
+ * Renders the table of pending returns.
+ */
 function displayReturns() {
     const tbody = document.getElementById('returnsTableBody');
     if (!tbody) return;
@@ -78,6 +93,9 @@ function displayReturns() {
     updatePagination();
 }
 
+/**
+ * Filters the return list based on search input.
+ */
 function filterReturns() {
     const headerQuery = document.getElementById('searchInput')?.value.toLowerCase() || '';
     const filterQuery = document.getElementById('tableFilter')?.value.toLowerCase() || '';
@@ -91,6 +109,10 @@ function filterReturns() {
     displayReturns();
 }
 
+/**
+ * Opens the Verification Modal with details populated.
+ * @param {Object} req - The request object
+ */
 function openVerifyModal(req) {
     document.getElementById('verifyRequestId').value = req.id;
     document.getElementById('verifyBorrowerName').textContent = req.user_name || '-';
@@ -112,6 +134,9 @@ function openVerifyModal(req) {
     document.getElementById('verifyReturnModal').classList.remove('hidden');
 }
 
+/**
+ * Submits the verification logic (Return asset to stock).
+ */
 async function submitVerification() {
     const id = document.getElementById('verifyRequestId').value;
     const adminNote = document.getElementById('verifyAdminNote').value;
@@ -135,6 +160,9 @@ async function submitVerification() {
     }
 }
 
+/**
+ * Updates the simple status text for pagination/monitoring.
+ */
 function updatePagination() {
     const el = document.getElementById('paginationInfo');
     if (el) {

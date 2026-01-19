@@ -1,10 +1,15 @@
 /**
  * organization.js
- * Handles Platform Admin viewing and managing organizations
+ * Handles Platform Admin operations for Organization Management.
+ * Includes loading, listing, and suspending/activating organizations (admin view),
+ * and new organization registration (public view).
  */
 
-// Depends on auth.js for fetchAPI
+// Dependencies: fetchAPI from auth.js
 
+/**
+ * Lists all organizations in the platform admin dashboard.
+ */
 async function loadOrganizations() {
     const tbody = document.getElementById('orgTableBody');
     if (!tbody) return;
@@ -42,7 +47,11 @@ async function loadOrganizations() {
     }
 }
 
+/**
+ * Toggles an organization's status (Active <-> Suspended).
+ */
 async function toggleOrgStatus(id, newStatus) {
+    // Note: Future improvement - Use custom modal instead of native confirm
     if (!confirm(`Set organization status to ${newStatus}?`)) return;
 
     try {
@@ -53,7 +62,7 @@ async function toggleOrgStatus(id, newStatus) {
     }
 }
 
-// Register Org Form Logic (public page)
+// --- Public Registration Logic ---
 const registerForm = document.getElementById('registerOrgForm');
 if (registerForm) {
     registerForm.addEventListener('submit', async (e) => {

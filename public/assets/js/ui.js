@@ -1,21 +1,25 @@
 /**
  * ui.js
- * Global UI helpers for toasts and modals
+ * Global UI Helper Library.
+ * Provides a standardized Toast Notification system and other shared UI utilities.
+ * Included globally via sidebar.php.
  */
 
-// Create toast container if it doesn't exist
+// --- Initialization ---
+// Auto-creates the toast container in the DOM if it doesn't exist
 const toastContainerId = 'global-toast-container';
 if (!document.getElementById(toastContainerId)) {
     const container = document.createElement('div');
     container.id = toastContainerId;
-    container.className = 'fixed bottom-5 right-5 z-[100] flex flex-col gap-2';
-    document.body.appendChild(container); // Append to body to ensure it's always available
+    container.className = 'fixed bottom-5 right-5 z-[100] flex flex-col gap-2'; // Fixed position bottom-right
+    document.body.appendChild(container); // Append to body to ensure it's always top-level
 }
 
 /**
- * Show a toast notification
- * @param {string} message 
- * @param {'success'|'error'|'info'} type 
+ * Displays a non-blocking toast notification.
+ * 
+ * @param {string} message - The text to display
+ * @param {'success'|'error'|'info'|'warning'} type - Controls color and icon
  */
 function showToast(message, type = 'info') {
     const container = document.getElementById(toastContainerId);
@@ -23,7 +27,7 @@ function showToast(message, type = 'info') {
 
     const toast = document.createElement('div');
 
-    // Colors based on type
+    // --- Styling Logic ---
     let colorClass = 'bg-slate-800 text-white';
     let icon = 'info';
 
@@ -38,6 +42,7 @@ function showToast(message, type = 'info') {
         icon = 'warning';
     }
 
+    // Base Tailwind classes for animation and layout
     toast.className = `min-w-[300px] max-w-sm px-4 py-3 rounded-xl shadow-lg transform transition-all duration-300 translate-y-10 opacity-0 flex items-center gap-3 ${colorClass}`;
 
     toast.innerHTML = `
@@ -50,17 +55,20 @@ function showToast(message, type = 'info') {
 
     container.appendChild(toast);
 
-    // Animate in
+    // --- Animation Entry ---
+    // Use requestAnimationFrame to ensure DOM paint before removing translate/opacity classes
     requestAnimationFrame(() => {
         toast.classList.remove('translate-y-10', 'opacity-0');
     });
 
-    // Auto remove
+    // --- Auto Removal ---
     setTimeout(() => {
+        // Exit animation
         toast.classList.add('translate-y-10', 'opacity-0');
+        // Remove from DOM after animation completes (300ms)
         setTimeout(() => toast.remove(), 300);
     }, 4000);
 }
 
-// Override default alert if desired, but better to call explicitly
+// Optional: Override native alert (Use with caution)
 // window.alert = (msg) => showToast(msg, 'info'); 

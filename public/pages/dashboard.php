@@ -312,6 +312,10 @@ if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
                 </script>
             <?php endif; ?>
         </div>
+        <div class="py-6 text-center">
+            <?php include 'footer.php'; ?>
+        </div>
+
     </main>
 </body>
 

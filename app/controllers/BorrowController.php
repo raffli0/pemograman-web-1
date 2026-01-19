@@ -3,6 +3,12 @@ require_once __DIR__ . '/../models/BorrowRequest.php';
 require_once __DIR__ . '/../models/ReturnLog.php';
 require_once __DIR__ . '/../helpers/Response.php';
 
+/**
+ * BorrowController
+ * Handles all logic for the Asset Borrowing and Returning Workflow.
+ * Includes creating requests, administrator approval/rejection, 
+ * processing returns with proof, and final verification.
+ */
 class BorrowController
 {
     private $borrow;
@@ -14,6 +20,10 @@ class BorrowController
         $this->returnLog = new ReturnLog();
     }
 
+    /**
+     * Lists borrow requests.
+     * Members see only their own, Admins see all for their organization.
+     */
     public function index()
     {
         global $user;
@@ -25,6 +35,10 @@ class BorrowController
         Response::json('success', 'Requests retrieved', $requests);
     }
 
+    /**
+     * Creates a new borrow request.
+     * Validates asset availability (status and stock).
+     */
     public function create()
     {
         global $user;
@@ -42,7 +56,7 @@ class BorrowController
             return;
         }
 
-        // Validate Asset Status & Ownership
+        // --- Validation: Asset Status & Ownership ---
         require_once __DIR__ . '/../models/Asset.php';
         $assetModel = new Asset();
         $asset = $assetModel->getById($user['org_id'], $asset_id);
@@ -62,11 +76,9 @@ class BorrowController
             return;
         }
 
-        // Check quantity availability (atomic check recommended, but simple check for now)
-        // Note: Logic moved to Model ideally, but keeping here for consistency
-
+        // --- Execution ---
         if ($this->borrow->create($user['org_id'], $user['id'], $asset_id, $start_date, $end_date)) {
-            // Log Action
+            // Log Activity
             require_once __DIR__ . '/../models/ActivityLog.php';
             $logger = new ActivityLog();
             $logger->log($user['org_id'], $user['id'], 'BORROW_REQUEST', "Requested: " . $asset['name'] . ". Purpose: " . $purpose);
@@ -77,6 +89,11 @@ class BorrowController
         }
     }
 
+    /**
+     * Approve a borrow request (Admin only).
+     * Updates request status to 'approved' and marks asset as 'in_use'.
+     * Decrements stock count.
+     */
     public function approve()
     {
         global $user;
@@ -86,32 +103,37 @@ class BorrowController
 
         $data = json_decode(file_get_contents("php://input"));
 
-        // Check request ownership via org_id
+        // Validate Request & Ownership
         $req = $this->borrow->getById($user['org_id'], $data->id);
         if (!$req)
             Response::json('error', 'Request not found', [], 404);
         if ($req['status'] !== 'pending')
             Response::json('error', 'Request already processed', [], 400);
 
+        // --- Execution: Stock & Status Update ---
         // Atomic-like check: Decrement only if stock > 0
         if ($this->borrow->decrementAssetStock($user['org_id'], $req['asset_id'])) {
             if ($this->borrow->updateStatus($user['org_id'], $data->id, 'approved')) {
-                // Auto-set Status to 'in_use'
+                // Auto-set Status to 'in_use' to reflect active borrowing
                 $this->borrow->updateAssetStatus($user['org_id'], $req['asset_id'], 'in_use');
 
-                // Log Action
+                // Log Activity
                 require_once __DIR__ . '/../models/ActivityLog.php';
                 $logger = new ActivityLog();
-                $logger->log($user['org_id'], $user['id'], 'BORROW_APPROVE', "Approved request for " . $req['asset_id']); // Ideally fetch name
+                $logger->log($user['org_id'], $user['id'], 'BORROW_APPROVE', "Approved request for " . $req['asset_id']);
 
                 Response::json('success', 'Request approved');
                 return;
             }
-            // Rollback if status update fails? (In simple PHP/MySQL without Transaction blocks, complex. We assume success)
+            // Note: If updateStatus fails, we have already decremented stock. 
+            // In production, this should be wrapped in a Transaction.
         }
         Response::json('error', 'Failed to approve: Out of Stock or System Error', [], 500);
     }
 
+    /**
+     * Reject a borrow request (Admin only).
+     */
     public function reject()
     {
         global $user;
@@ -120,7 +142,7 @@ class BorrowController
         }
         $data = json_decode(file_get_contents("php://input"));
 
-        // Ownership check
+        // Validate Request & Ownership
         $req = $this->borrow->getById($user['org_id'], $data->id);
         if (!$req)
             Response::json('error', 'Request not found', [], 404);
@@ -137,6 +159,10 @@ class BorrowController
         }
     }
 
+    /**
+     * Submit a Return (Member).
+     * Includes uploading proof image and adding condition notes.
+     */
     public function submitReturn()
     {
         global $user;
@@ -146,8 +172,9 @@ class BorrowController
 
         error_log("SubmitReturn Debug: ID=" . var_export($id, true) . " UserID=" . ($user['id'] ?? 'null') . " UserRole=" . ($user['role'] ?? 'null') . " OrgID=" . ($user['org_id'] ?? 'null'));
 
-        // Ownership check: only the borrower can submit a return
+        // --- Validation ---
         $req = $this->borrow->getById($user['org_id'], $id);
+        // Ensure only the borrower can submit the return
         if (!$req || ($user['role'] === 'member' && $req['user_id'] != $user['id'])) {
             Response::json('error', 'Unauthorized or request not found', [], 403);
         }
@@ -156,7 +183,7 @@ class BorrowController
             Response::json('error', 'Only active borrowings can be returned', [], 400);
         }
 
-        // Handle File Upload
+        // --- File Upload Handling ---
         $proof_path = null;
         if (isset($_FILES['return_proof']) && $_FILES['return_proof']['error'] === UPLOAD_ERR_OK) {
             $uploadDir = __DIR__ . '/../../public/uploads/returns/';
@@ -181,11 +208,12 @@ class BorrowController
             }
         }
 
+        // --- Execution ---
         if ($this->borrow->updateStatus($user['org_id'], $id, 'returning')) {
-            // Update return details (proof + note)
+            // Save proof and notes
             $this->borrow->updateReturnDetails($user['org_id'], $id, $proof_path, $note);
 
-            // Log Action
+            // Log Action and Create Return Record
             require_once __DIR__ . '/../models/ActivityLog.php';
             $logger = new ActivityLog();
             $logger->log($user['org_id'], $user['id'], 'RETURN_SUBMIT', "Member submitted return for Request ID: " . $id . ". Note: " . ($note ?? 'None'));
@@ -198,6 +226,10 @@ class BorrowController
         Response::json('error', 'Failed to submit return', [], 500);
     }
 
+    /**
+     * Verify Return (Admin).
+     * Finalizes the return process, restocks the asset, and sets it back to active.
+     */
     public function verifyReturn()
     {
         global $user;
@@ -215,10 +247,12 @@ class BorrowController
             Response::json('error', 'Request must be in returning state for verification', [], 400);
         }
 
+        // --- Execution ---
         if ($this->borrow->updateStatus($user['org_id'], $data->id, 'returned')) {
+            // Restock Asset
             $this->borrow->incrementAssetStock($user['org_id'], $req['asset_id']);
 
-            // Auto-set Status to 'active' (Available)
+            // Set Asset Status back to 'active' (Available)
             $this->borrow->updateAssetStatus($user['org_id'], $req['asset_id'], 'active');
 
             // Log Action

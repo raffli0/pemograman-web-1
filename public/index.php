@@ -80,7 +80,7 @@ if (strpos($uri, '/reports') !== false) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Asset Management - Streamline Operations</title>
+    <title>Asset Responsibility System</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
@@ -117,11 +117,9 @@ if (strpos($uri, '/reports') !== false) {
     <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                    <div class="bg-primary size-10 rounded-lg flex items-center justify-center text-white shadow-lg shadow-primary/20">
-                        <span class="material-symbols-outlined">school</span>
-                    </div>
-                    <span class="font-black text-xl tracking-tight text-slate-900">CampusAssets</span>
+                <div class="flex items-center gap-2 cursor-pointer"
+                    onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <span class="font-black text-xl tracking-tight text-slate-900">Asset Responsibility System</span>
                 </div>
                 <div class="hidden md:flex items-center gap-8">
                     <a href="#features"
@@ -158,7 +156,8 @@ if (strpos($uri, '/reports') !== false) {
                         Precision</span>
                 </h1>
                 <p class="text-lg text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">
-                    The centralized platform for universities to track inventory, manage equipment borrowing, and streamline
+                    The centralized platform for universities to track inventory, manage equipment borrowing, and
+                    streamline
                     operational workflows.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -184,10 +183,13 @@ if (strpos($uri, '/reports') !== false) {
                     <div class="size-3 rounded-full bg-green-400"></div>
                 </div>
                 <div class="pt-8 px-2 pb-2">
-                    <div class="bg-white rounded-lg p-8 min-h-[400px] flex items-center justify-center text-slate-300 bg-gradient-to-b from-white to-slate-50">
+                    <div
+                        class="bg-white rounded-lg p-8 min-h-[400px] flex items-center justify-center text-slate-300 bg-gradient-to-b from-white to-slate-50">
                         <div class="text-center group cursor-default">
-                            <span class="material-symbols-outlined text-6xl opacity-20 group-hover:opacity-30 transition-opacity text-primary">dashboard</span>
-                            <p class="font-medium mt-4 opacity-50 group-hover:opacity-70 transition-opacity">Intelligent Dashboard Interface</p>
+                            <span
+                                class="material-symbols-outlined text-6xl opacity-20 group-hover:opacity-30 transition-opacity text-primary">dashboard</span>
+                            <p class="font-medium mt-4 opacity-50 group-hover:opacity-70 transition-opacity">Intelligent
+                                Dashboard Interface</p>
                         </div>
                     </div>
                 </div>
@@ -207,7 +209,8 @@ if (strpos($uri, '/reports') !== false) {
                 <!-- Feature 1 -->
                 <div
                     class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                    <div class="size-14 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <div
+                        class="size-14 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                         <span class="material-symbols-outlined text-3xl">inventory_2</span>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3">Asset Registry</h3>
@@ -218,7 +221,8 @@ if (strpos($uri, '/reports') !== false) {
                 <!-- Feature 2 -->
                 <div
                     class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                    <div class="size-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <div
+                        class="size-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                         <span class="material-symbols-outlined text-3xl">schedule</span>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3">Smart Borrowing</h3>
@@ -229,7 +233,8 @@ if (strpos($uri, '/reports') !== false) {
                 <!-- Feature 3 -->
                 <div
                     class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                    <div class="size-14 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <div
+                        class="size-14 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                         <span class="material-symbols-outlined text-3xl">analytics</span>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3">Insightful Reports</h3>
@@ -241,20 +246,10 @@ if (strpos($uri, '/reports') !== false) {
     </section>
 
     <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white py-12 border-t border-slate-200">
-        <div
-            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="flex items-center gap-2">
-                <div class="bg-slate-900 size-8 rounded-md flex items-center justify-center text-white">
-                    <span class="material-symbols-outlined text-sm">school</span>
-                </div>
-                <span class="font-bold text-slate-900">CampusAssets</span>
-            </div>
-            <div class="flex gap-6">
-                 <a href="#" class="text-sm text-slate-400 hover:text-primary transition-colors">Privacy Policy</a>
-                 <a href="#" class="text-sm text-slate-400 hover:text-primary transition-colors">Terms of Service</a>
-            </div>
-            <p class="text-sm text-slate-400 font-medium">&copy; <?php echo date('Y'); ?> Campus Asset Management. All rights reserved.</p>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-center gap-6">
+            <?php include 'pages/footer.php'; ?>
         </div>
     </footer>
 
