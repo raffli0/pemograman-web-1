@@ -28,6 +28,8 @@ $isAdmin = ($user['role'] === 'org_admin');
                     colors: {
                         "primary": "#006e7a",
                         "status-green": "#339933",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#0f2123",
                     },
                     fontFamily: {
                         "display": ["Public Sans", "sans-serif"]

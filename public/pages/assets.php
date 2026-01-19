@@ -27,6 +27,8 @@ $isAdmin = ($user['role'] === 'org_admin');
                         "primary": "#006e7a",
                         "status-green": "#339933",
                         "status-orange": "#CC801A",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#0f2123",
                     },
                     fontFamily: {
                         "display": ["Public Sans", "sans-serif"]
@@ -58,28 +60,29 @@ $isAdmin = ($user['role'] === 'org_admin');
 
         <div class="p-8 pb-24">
             <!-- Page Heading & Breadcrumbs -->
-            <div class="mb-8">
-                <nav class="flex items-center gap-2 text-xs font-medium text-slate-400 mb-2">
-                    <a class="hover:text-primary transition-colors" href="dashboard.php">Admin Hub</a>
-                    <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-                    <span class="text-slate-600">Inventory</span>
-                </nav>
-                <div class="flex flex-wrap items-center justify-between gap-4">
+            <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+                <div>
+                    <nav class="flex items-center gap-2 text-xs font-medium text-slate-400 mb-2">
+                        <a class="hover:text-primary transition-colors" href="dashboard.php">Admin Hub</a>
+                        <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                        <span class="text-slate-600">Inventory</span>
+                    </nav>
                     <h2 class="text-3xl font-black text-slate-800 tracking-tight">Asset Inventory</h2>
-                    <div class="flex gap-2">
-                        <?php if ($isAdmin): ?>
-                            <button id="addAssetBtn"
-                                class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold hover:shadow-lg hover:shadow-primary/20 transition-all">
-                                <span class="material-symbols-outlined text-lg">add_circle</span>
-                                <span>Add New Asset</span>
-                            </button>
-                        <?php endif; ?>
-                        <button
-                            class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-bold hover:bg-slate-50 transition-colors">
-                            <span class="material-symbols-outlined text-lg">download</span>
-                            <span>Export CSV</span>
+                    <p class="text-slate-500 mt-1 font-medium">Manage assets.</p>
+                </div>
+                <div class="flex gap-2">
+                    <?php if ($isAdmin): ?>
+                        <button id="addAssetBtn"
+                            class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold hover:shadow-lg hover:shadow-primary/20 transition-all">
+                            <span class="material-symbols-outlined text-lg">add_circle</span>
+                            <span>Add New Asset</span>
                         </button>
-                    </div>
+                    <?php endif; ?>
+                    <button id="exportCsvBtn"
+                        class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-bold hover:bg-slate-50 transition-colors">
+                        <span class="material-symbols-outlined text-lg">download</span>
+                        <span>Export CSV</span>
+                    </button>
                 </div>
             </div>
 
@@ -246,11 +249,22 @@ $isAdmin = ($user['role'] === 'org_admin');
                         placeholder="e.g. Electronics">
                 </div>
 
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Stock Quantity</label>
-                    <input type="number" id="quantity" required
-                        class="w-full bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 rounded-lg px-4 py-2.5 text-sm"
-                        placeholder="1">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Stock Quantity</label>
+                        <input type="number" id="quantity" required
+                            class="w-full bg-slate-100 border-slate-200 text-slate-500 rounded-lg px-4 py-2.5 text-sm cursor-not-allowed"
+                            value="1" readonly>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Current Status</label>
+                        <select id="assetStatus"
+                            class="w-full bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 rounded-lg px-4 py-2.5 text-sm">
+                            <option value="active">Available</option>
+                            <option value="in_use">In Use</option>
+                            <option value="maintenance">Maintenance</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="space-y-2">
@@ -299,9 +313,10 @@ $isAdmin = ($user['role'] === 'org_admin');
                     <strong id="borrowAssetName" class="text-lg text-slate-900 tracking-tight"></strong>
                 </div>
                 <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Quantity Needed</label>
-                    <input type="number" id="borrowQuantity" min="1" required
-                        class="w-full bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 rounded-lg px-4 py-2.5 text-sm">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Quantity</label>
+                    <input type="number" id="quantity" required
+                        class="w-full bg-slate-100 border-slate-200 text-slate-500 rounded-lg px-4 py-2.5 text-sm cursor-not-allowed"
+                        value="1" readonly>
                 </div>
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Purpose of Use</label>

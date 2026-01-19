@@ -32,6 +32,8 @@ if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
                         "primary": "#006e7a",
                         "status-green": "#339933",
                         "status-orange": "#CC801A",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#0f2123",
                     },
                     fontFamily: {
                         "display": ["Public Sans", "sans-serif"]

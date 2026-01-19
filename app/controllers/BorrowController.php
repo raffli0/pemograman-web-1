@@ -28,12 +28,22 @@ class BorrowController
     public function create()
     {
         global $user;
-        $data = json_decode(file_get_contents("php://input"));
 
-        // Refactor: Validate Asset Status & Ownership First
+        $input = json_decode(file_get_contents("php://input"), true);
+
+        $asset_id = $input['asset_id'] ?? null;
+        $purpose = $input['purpose'] ?? 'No purpose specified';
+        $quantity = $input['quantity'] ?? 1;
+
+        if (!$asset_id) {
+            Response::json('error', 'Asset ID required', [], 400);
+            return;
+        }
+
+        // Validate Asset Status & Ownership
         require_once __DIR__ . '/../models/Asset.php';
         $assetModel = new Asset();
-        $asset = $assetModel->getById($user['org_id'], $data->asset_id);
+        $asset = $assetModel->getById($user['org_id'], $asset_id);
 
         if (!$asset) {
             Response::json('error', 'Asset not found', [], 404);
@@ -45,23 +55,45 @@ class BorrowController
             return;
         }
 
-        // Optional: Check Stock at request time (though approval is the real reservation)
         if ($asset['quantity'] < 1) {
             Response::json('error', 'Asset is out of stock', [], 400);
             return;
         }
 
-        // Set defaults for missing frontend fields
-        $start_date = isset($data->start_date) ? $data->start_date : date('Y-m-d');
-        $end_date = isset($data->end_date) ? $data->end_date : date('Y-m-d', strtotime('+7 days'));
+        // Handle File Upload
+        $proof_image_path = null;
+        if (isset($_FILES['proof_image']) && $_FILES['proof_image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/../../public/uploads/proofs/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
 
-        // Note: Quantity is sent by frontend but not supported in DB schema yet. We assume 1 unit per request.
+            $fileExtension = pathinfo($_FILES['proof_image']['name'], PATHINFO_EXTENSION);
+            $fileName = 'proof_' . $user['id'] . '_' . time() . '.' . $fileExtension;
+            $targetPath = $uploadDir . $fileName;
 
-        if ($this->borrow->create($user['org_id'], $user['id'], $data->asset_id, $start_date, $end_date)) {
+            // Validate file type (basic)
+            $allowedTypes = ['jpg', 'jpeg', 'png', 'pdf'];
+            if (!in_array(strtolower($fileExtension), $allowedTypes)) {
+                Response::json('error', 'Invalid file type. Only JPG, PNG, PDF allowed.', [], 400);
+                return;
+            }
+
+            if (move_uploaded_file($_FILES['proof_image']['tmp_name'], $targetPath)) {
+                $proof_image_path = 'uploads/proofs/' . $fileName;
+            } else {
+                Response::json('error', 'Failed to upload proof image', [], 500);
+                return;
+            }
+        }
+
+        $start_date = date('Y-m-d');
+        $end_date = date('Y-m-d', strtotime('+7 days'));
+
+        if ($this->borrow->create($user['org_id'], $user['id'], $asset_id, $start_date, $end_date, $proof_image_path)) {
             // Log Action
             require_once __DIR__ . '/../models/ActivityLog.php';
             $logger = new ActivityLog();
-            $purpose = isset($data->purpose) ? $data->purpose : 'No purpose specified';
             $logger->log($user['org_id'], $user['id'], 'BORROW_REQUEST', "Requested: " . $asset['name'] . ". Purpose: " . $purpose);
 
             Response::json('success', 'Borrow request submitted');
@@ -89,6 +121,9 @@ class BorrowController
         // Atomic-like check: Decrement only if stock > 0
         if ($this->borrow->decrementAssetStock($user['org_id'], $req['asset_id'])) {
             if ($this->borrow->updateStatus($user['org_id'], $data->id, 'approved')) {
+                // Auto-set Status to 'in_use'
+                $this->borrow->updateAssetStatus($user['org_id'], $req['asset_id'], 'in_use');
+
                 // Log Action
                 require_once __DIR__ . '/../models/ActivityLog.php';
                 $logger = new ActivityLog();
@@ -130,10 +165,14 @@ class BorrowController
     public function submitReturn()
     {
         global $user;
-        $data = json_decode(file_get_contents("php://input"));
+
+        $id = $_POST['id'] ?? null;
+        $note = $_POST['condition_note'] ?? null;
+
+        error_log("SubmitReturn Debug: ID=" . var_export($id, true) . " UserID=" . ($user['id'] ?? 'null') . " UserRole=" . ($user['role'] ?? 'null') . " OrgID=" . ($user['org_id'] ?? 'null'));
 
         // Ownership check: only the borrower can submit a return
-        $req = $this->borrow->getById($user['org_id'], $data->id);
+        $req = $this->borrow->getById($user['org_id'], $id);
         if (!$req || ($user['role'] === 'member' && $req['user_id'] != $user['id'])) {
             Response::json('error', 'Unauthorized or request not found', [], 403);
         }
@@ -142,15 +181,39 @@ class BorrowController
             Response::json('error', 'Only active borrowings can be returned', [], 400);
         }
 
-        if ($this->borrow->updateStatus($user['org_id'], $data->id, 'returning')) {
+        // Handle File Upload
+        $proof_path = null;
+        if (isset($_FILES['return_proof']) && $_FILES['return_proof']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/../../public/uploads/returns/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            $fileExtension = pathinfo($_FILES['return_proof']['name'], PATHINFO_EXTENSION);
+            $fileName = 'return_' . $id . '_' . time() . '.' . $fileExtension;
+            $targetPath = $uploadDir . $fileName;
+
+            $allowedTypes = ['jpg', 'jpeg', 'png', 'pdf'];
+            if (!in_array(strtolower($fileExtension), $allowedTypes)) {
+                Response::json('error', 'Invalid file type', [], 400);
+                return;
+            }
+
+            if (move_uploaded_file($_FILES['return_proof']['tmp_name'], $targetPath)) {
+                $proof_path = 'uploads/returns/' . $fileName;
+            }
+        }
+
+        if ($this->borrow->updateStatus($user['org_id'], $id, 'returning')) {
+            // Update return details (proof + note)
+            $this->borrow->updateReturnDetails($user['org_id'], $id, $proof_path, $note);
+
             // Log Action
             require_once __DIR__ . '/../models/ActivityLog.php';
             $logger = new ActivityLog();
-            $logger->log($user['org_id'], $user['id'], 'RETURN_SUBMIT', "Member submitted return for Request ID: " . $data->id . ". Note: " . ($data->condition_note ?? 'None'));
+            $logger->log($user['org_id'], $user['id'], 'RETURN_SUBMIT', "Member submitted return for Request ID: " . $id . ". Note: " . ($note ?? 'None'));
 
-            // Store the note temporarily in the return_logs or similar? 
-            // For now, let's just create the log entry.
-            $this->returnLog->create($data->id, date('Y-m-d'), $data->condition_note ?? 'Member reported return');
+            $this->returnLog->create($id, date('Y-m-d'), $note ?? 'Member reported return');
 
             Response::json('success', 'Return submitted for verification');
             return;
@@ -177,6 +240,9 @@ class BorrowController
 
         if ($this->borrow->updateStatus($user['org_id'], $data->id, 'returned')) {
             $this->borrow->incrementAssetStock($user['org_id'], $req['asset_id']);
+
+            // Auto-set Status to 'active' (Available)
+            $this->borrow->updateAssetStatus($user['org_id'], $req['asset_id'], 'active');
 
             // Log Action
             require_once __DIR__ . '/../models/ActivityLog.php';

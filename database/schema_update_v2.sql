@@ -1,0 +1,1 @@
+ALTER TABLE borrow_requests ADD COLUMN proof_image VARCHAR(255) DEFAULT NULL;

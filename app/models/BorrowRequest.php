@@ -97,4 +97,25 @@ class BorrowRequest
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function updateAssetStatus($organization_id, $asset_id, $status)
+    {
+        $query = "UPDATE assets SET status = :status WHERE id = :id AND organization_id = :org_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":status", $status);
+        $stmt->bindParam(":id", $asset_id);
+        $stmt->bindParam(":org_id", $organization_id);
+        return $stmt->execute();
+    }
+
+    public function updateReturnDetails($organization_id, $id, $path, $note)
+    {
+        $query = "UPDATE " . $this->table_name . " SET return_proof_image = :path, return_note = :note WHERE id = :id AND organization_id = :org_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":path", $path);
+        $stmt->bindParam(":note", $note);
+        $stmt->bindParam(":id", $id);
+        $stmt->bindParam(":org_id", $organization_id);
+        return $stmt->execute();
+    }
 }

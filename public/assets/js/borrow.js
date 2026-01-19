@@ -92,10 +92,12 @@ function displayRequests(isAdmin) {
                     <button onclick="openReturnModal(${req.id})" class="px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-[10px] font-black uppercase tracking-wider hover:bg-primary hover:text-white transition-all shadow-sm">Submit Return</button>
                 </div>
             `;
-        } else if (!isAdmin && req.status === 'returning') {
+        } else if (isAdmin && req.status === 'returning') {
             actions = `
-                <div class="flex items-center justify-end text-primary opacity-50">
-                    <span class="material-symbols-outlined text-lg animate-pulse">history</span>
+                <div class="flex items-center justify-end gap-2">
+                    <button onclick='openVerifyModal(${JSON.stringify(req).replace(/'/g, "&apos;")})' class="px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-[10px] font-black uppercase tracking-wider hover:bg-primary hover:text-white transition-all shadow-sm flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">visibility</span> Inspect
+                    </button>
                 </div>
             `;
         }
@@ -135,6 +137,49 @@ function displayRequests(isAdmin) {
     updatePagination();
 }
 
+function openVerifyModal(req) {
+    document.getElementById('verifyRequestId').value = req.id;
+    document.getElementById('verifyBorrowerName').textContent = req.user_name || '-';
+    document.getElementById('verifyAssetName').textContent = req.asset_name || '-';
+
+    // Note
+    const noteEl = document.getElementById('verifyUserNote');
+    noteEl.textContent = req.return_note ? `"${req.return_note}"` : "No remarks provided.";
+
+    // Image
+    const proofCont = document.getElementById('verifyProofContainer');
+    if (req.return_proof_image) {
+        proofCont.innerHTML = `<img src="/ukm/public/${req.return_proof_image}" class="w-full h-auto object-cover" alt="Proof">`;
+    } else {
+        proofCont.innerHTML = `<span class="text-xs text-slate-400 font-medium">No image uploaded</span>`;
+    }
+
+    document.getElementById('verifyReturnModal').classList.remove('hidden');
+}
+
+async function submitVerification() {
+    const id = document.getElementById('verifyRequestId').value;
+    const adminNote = document.getElementById('verifyAdminNote').value;
+    const btn = document.getElementById('btnVerifyParams');
+
+    try {
+        btn.disabled = true;
+        btn.innerHTML = 'Verifying...';
+
+        const res = await fetchAPI('/borrow/verifyReturn', 'POST', { id, admin_note: adminNote });
+        if (res.status === 'success') {
+            document.getElementById('verifyReturnModal').classList.add('hidden');
+            loadRequests(true); // reload as admin
+        }
+    } catch (err) {
+        alert(err.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Verify & Restock';
+    }
+}
+
+// ... existing filterRequests ...
 function filterRequests() {
     const headerQuery = document.getElementById('searchInput')?.value.toLowerCase() || '';
     const filterQuery = document.getElementById('tableFilter')?.value.toLowerCase() || '';
@@ -176,11 +221,29 @@ async function handleReturnSubmit(e) {
         btn.disabled = true;
         btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">progress_activity</span> Processing...';
 
-        const res = await fetchAPI('/borrow/submitReturn', 'POST', { id, condition_note: note });
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('condition_note', note);
+
+        const fileInput = document.getElementById('returnProofImage');
+        if (fileInput.files.length > 0) {
+            formData.append('return_proof', fileInput.files[0]);
+        }
+
+        // Use fetch directly for FormData to avoid Content-Type issues with Auth wrapper if it forces json
+        const response = await fetch('/ukm/public/api/borrow/submitReturn', {
+            method: 'POST',
+            body: formData
+        });
+
+        const res = await response.json();
+
         if (res.status === 'success') {
             document.getElementById('returnSubmitModal').classList.add('hidden');
             document.getElementById('returnSubmitForm').reset();
-            loadRequests(isAdmin);
+            loadRequests(typeof window.isAdmin !== 'undefined' ? window.isAdmin : false);
+        } else {
+            alert(res.message);
         }
     } catch (err) {
         alert(err.message);
