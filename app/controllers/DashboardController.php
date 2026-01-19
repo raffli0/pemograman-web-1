@@ -47,17 +47,22 @@ class DashboardController
         $stmt->execute();
         $pending = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
 
-        // 4. Activity Logs (Recent 5)
-        $logs = [];
-        if ($user['role'] == 'org_admin') {
-            $stmt = $this->logger->getLogs($org_id, 5);
-            $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
+        // 5. Pending Verifications (status='returning')
+        $query = "SELECT COUNT(*) as count FROM borrow_requests WHERE organization_id = :org_id AND status='returning'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":org_id", $org_id);
+        $stmt->execute();
+        $verifications = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+
+        // 6. Activity Logs (Recent 7)
+        $stmt = $this->logger->getLogs($org_id, 7);
+        $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         Response::json('success', 'Dashboard stats', [
             'total_assets' => $assets,
             'active_borrows' => $active_borrows,
             'pending_requests' => $pending,
+            'pending_verifications' => $verifications,
             'logs' => $logs
         ]);
     }

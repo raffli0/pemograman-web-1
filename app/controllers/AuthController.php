@@ -96,7 +96,7 @@ class AuthController
     public function getUsers()
     {
         $user = AuthMiddleware::authenticate();
-        if ($user['role'] !== 'org_admin') {
+        if (!in_array($user['role'], ['org_admin', 'member'])) {
             Response::json('error', 'Unauthorized', [], 403);
         }
 

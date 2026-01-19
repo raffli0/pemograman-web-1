@@ -43,4 +43,4 @@ ukm-asset-access-manager/
     - **New Organizations**: Register via the "Register Organization" link on the login page.
 
 ## License
-Copyright by NIM_Name_Class
+Copyright by 23552011278_Raffly_23 CNS A

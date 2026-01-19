@@ -25,7 +25,7 @@ class BorrowController
         Response::json('success', 'Requests retrieved', $requests);
     }
 
-    public function request()
+    public function create()
     {
         global $user;
         $data = json_decode(file_get_contents("php://input"));
@@ -37,22 +37,32 @@ class BorrowController
 
         if (!$asset) {
             Response::json('error', 'Asset not found', [], 404);
+            return;
         }
 
         if ($asset['status'] !== 'active') {
             Response::json('error', 'Asset is currently unavailable (' . $asset['status'] . ')', [], 400);
+            return;
         }
 
         // Optional: Check Stock at request time (though approval is the real reservation)
         if ($asset['quantity'] < 1) {
             Response::json('error', 'Asset is out of stock', [], 400);
+            return;
         }
 
-        if ($this->borrow->create($user['org_id'], $user['id'], $data->asset_id, $data->start_date, $data->end_date)) {
+        // Set defaults for missing frontend fields
+        $start_date = isset($data->start_date) ? $data->start_date : date('Y-m-d');
+        $end_date = isset($data->end_date) ? $data->end_date : date('Y-m-d', strtotime('+7 days'));
+
+        // Note: Quantity is sent by frontend but not supported in DB schema yet. We assume 1 unit per request.
+
+        if ($this->borrow->create($user['org_id'], $user['id'], $data->asset_id, $start_date, $end_date)) {
             // Log Action
             require_once __DIR__ . '/../models/ActivityLog.php';
             $logger = new ActivityLog();
-            $logger->log($user['org_id'], $user['id'], 'BORROW_REQUEST', "Requested: " . $asset['name']);
+            $purpose = isset($data->purpose) ? $data->purpose : 'No purpose specified';
+            $logger->log($user['org_id'], $user['id'], 'BORROW_REQUEST', "Requested: " . $asset['name'] . ". Purpose: " . $purpose);
 
             Response::json('success', 'Borrow request submitted');
         } else {
@@ -117,7 +127,38 @@ class BorrowController
         }
     }
 
-    public function returnAsset()
+    public function submitReturn()
+    {
+        global $user;
+        $data = json_decode(file_get_contents("php://input"));
+
+        // Ownership check: only the borrower can submit a return
+        $req = $this->borrow->getById($user['org_id'], $data->id);
+        if (!$req || ($user['role'] === 'member' && $req['user_id'] != $user['id'])) {
+            Response::json('error', 'Unauthorized or request not found', [], 403);
+        }
+
+        if ($req['status'] !== 'approved') {
+            Response::json('error', 'Only active borrowings can be returned', [], 400);
+        }
+
+        if ($this->borrow->updateStatus($user['org_id'], $data->id, 'returning')) {
+            // Log Action
+            require_once __DIR__ . '/../models/ActivityLog.php';
+            $logger = new ActivityLog();
+            $logger->log($user['org_id'], $user['id'], 'RETURN_SUBMIT', "Member submitted return for Request ID: " . $data->id . ". Note: " . ($data->condition_note ?? 'None'));
+
+            // Store the note temporarily in the return_logs or similar? 
+            // For now, let's just create the log entry.
+            $this->returnLog->create($data->id, date('Y-m-d'), $data->condition_note ?? 'Member reported return');
+
+            Response::json('success', 'Return submitted for verification');
+            return;
+        }
+        Response::json('error', 'Failed to submit return', [], 500);
+    }
+
+    public function verifyReturn()
     {
         global $user;
         if ($user['role'] !== 'org_admin') {
@@ -126,20 +167,25 @@ class BorrowController
         $data = json_decode(file_get_contents("php://input"));
 
         $req = $this->borrow->getById($user['org_id'], $data->id);
-        if ($req && $req['status'] == 'approved') {
-            if ($this->borrow->updateStatus($user['org_id'], $data->id, 'returned')) {
-                $this->borrow->incrementAssetStock($user['org_id'], $req['asset_id']);
-                $this->returnLog->create($data->id, date('Y-m-d'), $data->condition_note);
-
-                // Log Action
-                require_once __DIR__ . '/../models/ActivityLog.php';
-                $logger = new ActivityLog();
-                $logger->log($user['org_id'], $user['id'], 'BORROW_RETURN', "Returned ID: " . $data->id . ". Cond: " . $data->condition_note);
-
-                Response::json('success', 'Asset returned successfully');
-                return;
-            }
+        if (!$req) {
+            Response::json('error', 'Request not found', [], 404);
         }
-        Response::json('error', 'Failed to return asset', [], 500);
+
+        if ($req['status'] !== 'returning') {
+            Response::json('error', 'Request must be in returning state for verification', [], 400);
+        }
+
+        if ($this->borrow->updateStatus($user['org_id'], $data->id, 'returned')) {
+            $this->borrow->incrementAssetStock($user['org_id'], $req['asset_id']);
+
+            // Log Action
+            require_once __DIR__ . '/../models/ActivityLog.php';
+            $logger = new ActivityLog();
+            $logger->log($user['org_id'], $user['id'], 'RETURN_VERIFY', "Admin verified return for Request ID: " . $data->id . ". Final Note: " . ($data->admin_note ?? 'Verified'));
+
+            Response::json('success', 'Return verified and asset restocked');
+            return;
+        }
+        Response::json('error', 'Failed to verify return', [], 500);
     }
 }
