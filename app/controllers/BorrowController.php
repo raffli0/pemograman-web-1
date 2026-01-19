@@ -34,6 +34,8 @@ class BorrowController
         $asset_id = $input['asset_id'] ?? null;
         $purpose = $input['purpose'] ?? 'No purpose specified';
         $quantity = $input['quantity'] ?? 1;
+        $start_date = $input['start_date'] ?? date('Y-m-d');
+        $end_date = $input['end_date'] ?? date('Y-m-d', strtotime('+7 days'));
 
         if (!$asset_id) {
             Response::json('error', 'Asset ID required', [], 400);
@@ -60,37 +62,10 @@ class BorrowController
             return;
         }
 
-        // Handle File Upload
-        $proof_image_path = null;
-        if (isset($_FILES['proof_image']) && $_FILES['proof_image']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = __DIR__ . '/../../public/uploads/proofs/';
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
-            }
+        // Check quantity availability (atomic check recommended, but simple check for now)
+        // Note: Logic moved to Model ideally, but keeping here for consistency
 
-            $fileExtension = pathinfo($_FILES['proof_image']['name'], PATHINFO_EXTENSION);
-            $fileName = 'proof_' . $user['id'] . '_' . time() . '.' . $fileExtension;
-            $targetPath = $uploadDir . $fileName;
-
-            // Validate file type (basic)
-            $allowedTypes = ['jpg', 'jpeg', 'png', 'pdf'];
-            if (!in_array(strtolower($fileExtension), $allowedTypes)) {
-                Response::json('error', 'Invalid file type. Only JPG, PNG, PDF allowed.', [], 400);
-                return;
-            }
-
-            if (move_uploaded_file($_FILES['proof_image']['tmp_name'], $targetPath)) {
-                $proof_image_path = 'uploads/proofs/' . $fileName;
-            } else {
-                Response::json('error', 'Failed to upload proof image', [], 500);
-                return;
-            }
-        }
-
-        $start_date = date('Y-m-d');
-        $end_date = date('Y-m-d', strtotime('+7 days'));
-
-        if ($this->borrow->create($user['org_id'], $user['id'], $asset_id, $start_date, $end_date, $proof_image_path)) {
+        if ($this->borrow->create($user['org_id'], $user['id'], $asset_id, $start_date, $end_date)) {
             // Log Action
             require_once __DIR__ . '/../models/ActivityLog.php';
             $logger = new ActivityLog();
@@ -201,6 +176,8 @@ class BorrowController
 
             if (move_uploaded_file($_FILES['return_proof']['tmp_name'], $targetPath)) {
                 $proof_path = 'uploads/returns/' . $fileName;
+            } else {
+                error_log("Failed to move uploaded file to " . $targetPath);
             }
         }
 

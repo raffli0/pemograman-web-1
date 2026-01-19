@@ -192,53 +192,72 @@ $isAdmin = ($user['role'] === 'org_admin');
     </div>
 
     <!-- Admin Verify Modal -->
-    <div id="verifyReturnModal" class="fixed inset-0 z-[60] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div id="verifyReturnModal" class="fixed inset-0 z-[60] hidden" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
         <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"></div>
         <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
             <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-slate-100">
-                    
+                <div
+                    class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-slate-100">
+
                     <div class="bg-slate-50 px-4 py-3 border-b border-slate-100 flex justify-between items-center">
                         <h3 class="text-sm font-bold text-slate-900">Verify Asset Return</h3>
-                        <button onclick="document.getElementById('verifyReturnModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-500">
+                        <button onclick="document.getElementById('verifyReturnModal').classList.add('hidden')"
+                            class="text-slate-400 hover:text-slate-500">
                             <span class="material-symbols-outlined">close</span>
                         </button>
                     </div>
 
                     <div class="px-6 py-6 space-y-6">
                         <input type="hidden" id="verifyRequestId">
-                        
+
                         <!-- Details -->
                         <div class="grid grid-cols-2 gap-4">
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                                <span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Borrower</span>
+                                <span
+                                    class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Borrower</span>
                                 <span id="verifyBorrowerName" class="font-bold text-slate-800 text-sm">-</span>
                             </div>
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                                <span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Asset</span>
+                                <span
+                                    class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Asset</span>
                                 <span id="verifyAssetName" class="font-bold text-slate-800 text-sm">-</span>
+                            </div>
+                            <div class="col-span-2 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                                <span
+                                    class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Scheduled
+                                    Duration</span>
+                                <span id="verifyDuration" class="font-bold text-slate-800 text-sm font-mono">-</span>
                             </div>
                         </div>
 
                         <!-- User Note -->
                         <div>
-                            <span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">User's Condition Report</span>
-                            <div id="verifyUserNote" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-600 italic">
+                            <span
+                                class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">User's
+                                Condition Report</span>
+                            <div id="verifyUserNote"
+                                class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-600 italic">
                                 "No remarks."
                             </div>
                         </div>
 
                         <!-- Proof Image -->
                         <div>
-                            <span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Proof of Condition</span>
-                            <div id="verifyProofContainer" class="rounded-xl overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center min-h-[150px]">
+                            <span
+                                class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Proof
+                                of Condition</span>
+                            <div id="verifyProofContainer"
+                                class="rounded-xl overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center min-h-[150px]">
                                 <span class="text-xs text-slate-400 font-medium">No image uploaded</span>
                             </div>
                         </div>
 
                         <!-- Admin Note -->
                         <div>
-                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Admin Remarks (Optional)</label>
+                            <label
+                                class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Admin
+                                Remarks (Optional)</label>
                             <textarea id="verifyAdminNote" rows="2"
                                 class="w-full px-4 py-3 bg-white border-2 border-slate-100 focus:border-primary/20 focus:ring-0 rounded-xl text-sm transition-all"
                                 placeholder="Any internal notes..."></textarea>
@@ -250,7 +269,8 @@ $isAdmin = ($user['role'] === 'org_admin');
                             class="inline-flex w-full justify-center rounded-xl bg-emerald-600 px-3 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-emerald-500 sm:w-auto transition-all">
                             Verify & Restock
                         </button>
-                        <button onclick="document.getElementById('verifyReturnModal').classList.add('hidden')" type="button"
+                        <button onclick="document.getElementById('verifyReturnModal').classList.add('hidden')"
+                            type="button"
                             class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-2.5 text-sm font-bold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 sm:mt-0 sm:w-auto transition-all">
                             Cancel
                         </button>

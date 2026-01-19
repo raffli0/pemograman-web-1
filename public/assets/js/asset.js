@@ -309,7 +309,9 @@ function handleBorrowSubmit(e) {
 
     const formData = {
         asset_id: document.getElementById('borrowAssetId').value,
-        quantity: document.getElementById('quantity').value, // ID is 'quantity' not 'borrowQuantity'
+        quantity: document.getElementById('quantity').value,
+        start_date: document.getElementById('startDate').value,
+        end_date: document.getElementById('endDate').value,
         purpose: document.getElementById('purpose').value
     };
 

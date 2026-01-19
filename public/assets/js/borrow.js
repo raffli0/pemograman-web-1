@@ -141,6 +141,7 @@ function openVerifyModal(req) {
     document.getElementById('verifyRequestId').value = req.id;
     document.getElementById('verifyBorrowerName').textContent = req.user_name || '-';
     document.getElementById('verifyAssetName').textContent = req.asset_name || '-';
+    document.getElementById('verifyDuration').textContent = `${req.start_date} -> ${req.end_date}`;
 
     // Note
     const noteEl = document.getElementById('verifyUserNote');

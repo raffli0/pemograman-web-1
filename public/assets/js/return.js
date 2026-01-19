@@ -66,8 +66,8 @@ function displayReturns() {
                 </span>
             </td>
             <td class="py-4 px-8 text-right">
-                <button onclick="openReturnModal(${req.id})" class="px-4 py-1.5 bg-emerald-500 text-white rounded-lg text-[10px] font-black uppercase tracking-wider hover:bg-emerald-600 hover:shadow-md transition-all">
-                    Verify & Restock
+                <button onclick='openVerifyModal(${JSON.stringify(req).replace(/'/g, "&apos;")})' class="px-4 py-1.5 bg-emerald-500 text-white rounded-lg text-[10px] font-black uppercase tracking-wider hover:bg-emerald-600 hover:shadow-md transition-all flex items-center gap-1 justify-center ml-auto">
+                    <span class="material-symbols-outlined text-sm">visibility</span> Inspect
                 </button>
             </td>
         `;
@@ -91,37 +91,47 @@ function filterReturns() {
     displayReturns();
 }
 
-function openReturnModal(id) {
-    const modalIdField = document.getElementById('returnRequestId');
-    if (modalIdField) modalIdField.value = id;
-    document.getElementById('returnModal')?.classList.remove('hidden');
+function openVerifyModal(req) {
+    document.getElementById('verifyRequestId').value = req.id;
+    document.getElementById('verifyBorrowerName').textContent = req.user_name || '-';
+    document.getElementById('verifyAssetName').textContent = req.asset_name || '-';
+    document.getElementById('verifyDuration').textContent = `${req.start_date} -> ${req.end_date}`;
+
+    // Note
+    const noteEl = document.getElementById('verifyUserNote');
+    noteEl.textContent = req.return_note ? `"${req.return_note}"` : "No remarks provided.";
+
+    // Image
+    const proofCont = document.getElementById('verifyProofContainer');
+    if (req.return_proof_image) {
+        proofCont.innerHTML = `<img src="/ukm/public/${req.return_proof_image}" class="w-full h-auto object-cover" alt="Proof">`;
+    } else {
+        proofCont.innerHTML = `<span class="text-xs text-slate-400 font-medium">No image uploaded</span>`;
+    }
+
+    document.getElementById('verifyReturnModal').classList.remove('hidden');
 }
 
-async function handleReturnSubmit(e) {
-    e.preventDefault();
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-
-    const data = {
-        id: document.getElementById('returnRequestId').value,
-        condition_note: document.getElementById('conditionNote').value
-    };
+async function submitVerification() {
+    const id = document.getElementById('verifyRequestId').value;
+    const adminNote = document.getElementById('verifyAdminNote').value;
+    const btn = document.getElementById('btnVerifyParams');
 
     try {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">progress_activity</span> Verifying...';
+        btn.disabled = true;
+        btn.innerHTML = 'Verifying...';
 
-        const res = await fetchAPI('/borrow/verifyReturn', 'POST', data);
+        // Same endpoint as borrow verification
+        const res = await fetchAPI('/borrow/verifyReturn', 'POST', { id, admin_note: adminNote });
         if (res.status === 'success') {
-            document.getElementById('returnModal').classList.add('hidden');
-            document.getElementById('returnForm').reset();
+            document.getElementById('verifyReturnModal').classList.add('hidden');
             loadReturns();
         }
     } catch (err) {
         alert(err.message);
     } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
+        btn.disabled = false;
+        btn.innerHTML = 'Verify & Restock';
     }
 }
 

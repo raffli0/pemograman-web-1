@@ -137,38 +137,98 @@ RoleMiddleware::authorize(['org_admin']);
         <?php include 'footer.php'; ?>
     </main>
 
-    <!-- Return Modal -->
-    <div id="returnModal"
-        class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full overflow-hidden border border-slate-200">
-            <div class="px-8 py-6 border-b border-slate-100 text-center">
-                <h3 class="text-xl font-bold text-slate-900 tracking-tight">Finalize Recovery</h3>
-                <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Quality Assurance Report</p>
+    <!-- Verify Return Modal -->
+    <div id="verifyReturnModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"></div>
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div
+                    class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-slate-100">
+
+                    <div class="bg-slate-50 px-4 py-3 border-b border-slate-100 flex justify-between items-center">
+                        <h3 class="text-sm font-bold text-slate-900">Verify Asset Return</h3>
+                        <button onclick="document.getElementById('verifyReturnModal').classList.add('hidden')"
+                            class="text-slate-400 hover:text-slate-500">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
+
+                    <div class="px-6 py-6 space-y-6">
+                        <input type="hidden" id="verifyRequestId">
+
+                        <!-- Details -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
+                                <span
+                                    class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Borrower</span>
+                                <span id="verifyBorrowerName" class="font-bold text-slate-800 text-sm">-</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
+                                <span
+                                    class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Asset</span>
+                                <span id="verifyAssetName" class="font-bold text-slate-800 text-sm">-</span>
+                            </div>
+                            <div class="col-span-2 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                                <span
+                                    class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Scheduled
+                                    Duration</span>
+                                <span id="verifyDuration" class="font-bold text-slate-800 text-sm font-mono">-</span>
+                            </div>
+                        </div>
+
+                        <!-- User Note -->
+                        <div>
+                            <span
+                                class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">User's
+                                Condition Report</span>
+                            <div id="verifyUserNote"
+                                class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-600 italic">
+                                "No remarks."
+                            </div>
+                        </div>
+
+                        <!-- Proof Image -->
+                        <div>
+                            <span
+                                class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Proof
+                                of Condition</span>
+                            <div id="verifyProofContainer"
+                                class="rounded-xl overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center min-h-[150px]">
+                                <span class="text-xs text-slate-400 font-medium">No image uploaded</span>
+                            </div>
+                        </div>
+
+                        <!-- Admin Note -->
+                        <div>
+                            <label
+                                class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Admin
+                                Remarks (Optional)</label>
+                            <textarea id="verifyAdminNote" rows="2"
+                                class="w-full px-4 py-3 bg-white border-2 border-slate-100 focus:border-primary/20 focus:ring-0 rounded-xl text-sm transition-all"
+                                placeholder="Any internal notes..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 px-6 py-4 flex flex-row-reverse gap-3">
+                        <button onclick="submitVerification()" id="btnVerifyParams"
+                            class="inline-flex w-full justify-center rounded-xl bg-emerald-600 px-3 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-emerald-500 sm:w-auto transition-all">
+                            Verify & Restock
+                        </button>
+                        <button onclick="document.getElementById('verifyReturnModal').classList.add('hidden')"
+                            type="button"
+                            class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-2.5 text-sm font-bold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 sm:mt-0 sm:w-auto transition-all">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
             </div>
-            <form id="returnForm" class="p-8 space-y-6">
-                <input type="hidden" id="returnRequestId">
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Asset Condition
-                        Status</label>
-                    <textarea id="conditionNote" required rows="3"
-                        class="w-full bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 rounded-lg px-4 py-2.5 text-sm resize-none"
-                        placeholder="Detail any changes in condition or simply 'Perfect Condition'"></textarea>
-                </div>
-                <div class="flex flex-col gap-2 pt-4">
-                    <button type="submit"
-                        class="w-full py-3 bg-primary text-white rounded-lg text-sm font-bold hover:shadow-lg hover:shadow-primary/20 transition-all">Submit
-                        Inspection & Recover</button>
-                    <button type="button" onclick="document.getElementById('returnModal').classList.add('hidden')"
-                        class="w-full py-3 rounded-lg text-sm font-bold text-slate-500 hover:bg-slate-50 transition-colors">Cancel
-                        Processing</button>
-                </div>
-            </form>
         </div>
     </div>
 
     <!-- Scripts -->
     <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/return.js"></script>
+    <script src="../assets/js/return.js?v=<?php echo time(); ?>"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => loadReturns());
     </script>
