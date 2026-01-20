@@ -102,7 +102,7 @@
                             <div>
                                 <label for="adminName" class="block text-sm font-semibold text-gray-700 mb-2">Full
                                     Name</label>
-                                <input type="text" id="adminName" required placeholder="John Doe"
+                                <input type="text" id="adminName" required placeholder="e.g. Travis Baker"
                                     class="input-focus w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             </div>
 

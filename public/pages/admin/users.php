@@ -206,23 +206,23 @@ $isAdmin = ($user['role'] === 'org_admin');
             </div>
             <form id="userForm" class="p-8 space-y-6">
                 <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Full Legal Name</label>
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Full Name</label>
                     <input type="text" id="userName" required
                         class="w-full bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 rounded-lg px-4 py-2.5 text-sm"
-                        placeholder="e.g. John Doe">
+                        placeholder="e.g. Travis Baker">
                 </div>
                 <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Digital Mail
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Email
                         Address</label>
                     <input type="email" id="userEmail" required
                         class="w-full bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 rounded-lg px-4 py-2.5 text-sm"
-                        placeholder="john@example.com">
+                        placeholder="travis@example.com">
                 </div>
                 <div class="space-y-2 relative">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Access Credentials</label>
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Password</label>
                     <input type="password" id="userPassword" required
                         class="w-full bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 rounded-lg px-4 py-2.5 text-sm"
-                        placeholder="••••••••">
+                        placeholder="******">
                 </div>
                 <div class="flex flex-col gap-2 pt-4">
                     <button type="submit"
