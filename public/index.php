@@ -1,4 +1,19 @@
 <?php
+// Load Environment Variables
+require_once __DIR__ . '/../app/core/Env.php';
+Env::load(__DIR__ . '/../.env');
+
+// Configure Error Reporting based on Environment
+if (getenv('DISPLAY_ERRORS') === '1') {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+} else {
+    ini_set('display_errors', 0);
+    ini_set('display_startup_errors', 0);
+    error_reporting(E_ALL); // Log errors, but don't show them
+}
+
 // Simple Router
 $uri = $_SERVER['REQUEST_URI'];
 

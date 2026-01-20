@@ -1,0 +1,24 @@
+# Security
+.env
+.env.backup
+*.sql
+auth.json
+
+# Dependencies
+/vendor
+/node_modules
+
+# Logs
+*.log
+error_log
+
+# OS & IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Temporary / Verification scripts
+public/verify_hardening.php
+public/test_session.php

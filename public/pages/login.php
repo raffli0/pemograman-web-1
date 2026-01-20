@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../../app/core/Session.php';
+Session::init();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -111,6 +115,18 @@
                     </div>
 
                     <form id="loginForm" class="space-y-6">
+                        <!-- Flash Messages -->
+                        <?php if (Session::hasFlash('success')): ?>
+                            <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-xl text-sm">
+                                <?php echo Session::getFlash('success'); ?>
+                            </div>
+                        <?php endif; ?>
+                        <?php if (Session::hasFlash('error')): ?>
+                            <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-xl text-sm">
+                                <?php echo Session::getFlash('error'); ?>
+                            </div>
+                        <?php endif; ?>
+
                         <!-- Email Input -->
                         <div>
                             <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email

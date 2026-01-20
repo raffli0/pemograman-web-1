@@ -2,7 +2,12 @@
 
 class JWTService
 {
-    private static $secret_key = "YOUR_SUPER_SECRET_KEY_UKM_ASSET_MANAGER"; // In production, use environment variable
+    // Secret key is now fetched from environment
+    private static function getSecretKey()
+    {
+        return getenv('JWT_SECRET') ?: 'FALLBACK_SECRET_FOR_DEV_ONLY';
+    }
+
     private static $algorithm = "HS256";
 
     public static function generate($payload)
@@ -16,7 +21,8 @@ class JWTService
         $base64UrlHeader = self::base64UrlEncode($header);
         $base64UrlPayload = self::base64UrlEncode($payload_json);
 
-        $signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, self::$secret_key, true);
+
+        $signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, self::getSecretKey(), true);
         $base64UrlSignature = self::base64UrlEncode($signature);
 
         return $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
@@ -33,7 +39,8 @@ class JWTService
         $payload = $parts[1];
         $signature_provided = $parts[2];
 
-        $signature = hash_hmac('sha256', $header . "." . $payload, self::$secret_key, true);
+
+        $signature = hash_hmac('sha256', $header . "." . $payload, self::getSecretKey(), true);
         $base64UrlSignature = self::base64UrlEncode($signature);
 
         if (!hash_equals($base64UrlSignature, $signature_provided)) {
