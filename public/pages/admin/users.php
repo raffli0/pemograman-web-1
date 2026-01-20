@@ -11,7 +11,7 @@ $isAdmin = ($user['role'] === 'org_admin');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Members - Campus Admin</title>
+    <title>Members - Admin</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&display=swap"
@@ -82,20 +82,19 @@ $isAdmin = ($user['role'] === 'org_admin');
                     <nav
                         class="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
                         <a href="/ukm/public/pages/admin/dashboard.php"
-                            class="hover:text-primary transition-colors">Directory</a>
+                            class="hover:text-primary transition-colors">Admin</a>
                         <span class="material-symbols-outlined text-[10px]">chevron_right</span>
-                        <span class="text-slate-900">Organization Members</span>
+                        <span class="text-slate-900">Members</span>
                     </nav>
-                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Active Members</h1>
-                    <p class="text-slate-500 mt-1 font-medium">Manage and monitor access for your organization's staff.
-                    </p>
+                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Member Management</h1>
+                    <p class="text-slate-500 mt-1 font-medium">Manage organization members and access.</p>
                 </div>
                 <?php if ($isAdmin): ?>
                     <div class="flex gap-3">
                         <button onclick="document.getElementById('userModal').classList.remove('hidden')"
                             class="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all">
                             <span class="material-symbols-outlined text-lg">person_add</span>
-                            <span>Add New Member</span>
+                            <span>Add Member</span>
                         </button>
                     </div>
                 <?php endif; ?>
@@ -143,9 +142,8 @@ $isAdmin = ($user['role'] === 'org_admin');
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
                 <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center">
                     <div>
-                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Access Control List</h3>
-                        <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">System Users
-                            Registry</p>
+                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Member Directory</h3>
+                        <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Registered Users</p>
                     </div>
                     <div class="relative">
                         <span
@@ -160,13 +158,13 @@ $isAdmin = ($user['role'] === 'org_admin');
                             <tr class="border-b border-slate-100">
                                 <th
                                     class="text-left py-4 px-8 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                    Member Identity</th>
+                                    Name</th>
                                 <th
                                     class="text-left py-4 px-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                                     Email Address</th>
                                 <th
                                     class="text-left py-4 px-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                    System Role</th>
+                                    Role</th>
                                 <th
                                     class="text-left py-4 px-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                                     Joining Date</th>

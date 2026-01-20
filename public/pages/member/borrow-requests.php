@@ -79,12 +79,12 @@ $user = AuthMiddleware::authenticate();
                 <div>
                     <nav
                         class="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
-                        <a href="assets.php" class="hover:text-primary transition-colors">My Account</a>
+                        <a href="assets.php" class="hover:text-primary transition-colors">My Dashboard</a>
                         <span class="material-symbols-outlined text-[10px]">chevron_right</span>
                         <span class="text-slate-900">Borrowing Requests</span>
                     </nav>
-                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">My Borrowing Requests</h1>
-                    <p class="text-slate-500 mt-1 font-medium">Track the status of your asset borrowing activity.</p>
+                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">My Requests</h1>
+                    <p class="text-slate-500 mt-1 font-medium">Track your borrowing requests and status.</p>
                 </div>
             </div>
 
@@ -107,10 +107,10 @@ $user = AuthMiddleware::authenticate();
                             <tr class="border-b border-slate-100">
                                 <th
                                     class="text-left py-4 px-8 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                    Asset Name</th>
+                                    Item Name</th>
                                 <th
                                     class="text-left py-4 px-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                    Requested Duration</th>
+                                    Duration Needed</th>
                                 <th
                                     class="text-left py-4 px-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                                     Request Date</th>

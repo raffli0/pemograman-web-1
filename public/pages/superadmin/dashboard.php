@@ -40,14 +40,14 @@ if ($user['role'] !== 'super_admin') {
         <!-- Top Navigation Bar (Inline or Include) -->
         <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
             <div class="flex items-center gap-4">
-                <h2 class="text-lg font-bold text-slate-700">System Dashboard</h2>
+                <h2 class="text-lg font-bold text-slate-700">System Control</h2>
             </div>
         </header>
 
         <div class="p-8 max-w-7xl mx-auto w-full pb-24">
             <!-- Page Heading -->
             <div class="mb-8">
-                <h2 class="text-3xl font-black text-slate-800 tracking-tight mb-2">System Overview</h2>
+                <h2 class="text-3xl font-black text-slate-800 tracking-tight mb-2">Platform Status</h2>
                 <p class="text-slate-500">Manage organizations and system-wide settings.</p>
             </div>
 
@@ -77,7 +77,7 @@ if ($user['role'] !== 'super_admin') {
                             <div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
                                 <span class="material-symbols-outlined">verified</span>
                             </div>
-                            <h3 class="text-sm font-bold text-slate-500 uppercase tracking-widest">Active Orgs</h3>
+                            <h3 class="text-sm font-bold text-slate-500 uppercase tracking-widest">Live Systems</h3>
                         </div>
                     </div>
                     <div>
@@ -93,7 +93,7 @@ if ($user['role'] !== 'super_admin') {
                             <div class="p-2 bg-blue-50 text-blue-600 rounded-lg">
                                 <span class="material-symbols-outlined">group</span>
                             </div>
-                            <h3 class="text-sm font-bold text-slate-500 uppercase tracking-widest">Total Users</h3>
+                            <h3 class="text-sm font-bold text-slate-500 uppercase tracking-widest">Total Accounts</h3>
                         </div>
                     </div>
                     <div>
@@ -122,7 +122,7 @@ if ($user['role'] !== 'super_admin') {
 
                 <!-- Quick Actions -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                    <h3 class="text-lg font-bold text-slate-900 mb-4">Quick Management</h3>
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Administrative Actions</h3>
                     <div class="grid grid-cols-2 gap-4">
                         <a href="/ukm/public/pages/superadmin/organizations.php"
                             class="p-4 bg-slate-50 rounded-xl hover:bg-purple-50 hover:text-purple-700 transition-all border border-slate-100 group text-center">

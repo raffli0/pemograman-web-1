@@ -66,9 +66,9 @@ if ($user['role'] !== 'org_admin') {
             <div class="mb-8">
                 <nav class="flex items-center gap-2 text-xs font-medium text-slate-400 mb-2">
                     <a class="hover:text-primary transition-colors" href="/ukm/public/pages/admin/dashboard.php">Admin
-                        Hub</a>
+                        Overview</a>
                     <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-                    <span class="text-slate-600">Dashboard</span>
+                    <span class="text-slate-600">Home</span>
                 </nav>
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <h2 class="text-3xl font-black text-slate-800 tracking-tight">Dashboard Overview</h2>
@@ -98,7 +98,7 @@ if ($user['role'] !== 'org_admin') {
                         </div>
                         <span class="text-emerald-600 text-xs font-bold bg-emerald-50 px-2 py-1 rounded">+2.5%</span>
                     </div>
-                    <p class="text-slate-500 text-sm font-medium">Total Assets</p>
+                    <p class="text-slate-500 text-sm font-medium">Assets Managed</p>
                     <p class="text-3xl font-black mt-1" id="statAssets">-</p>
                 </div>
                 <!-- Assets in Use -->
@@ -110,7 +110,7 @@ if ($user['role'] !== 'org_admin') {
                         </div>
                         <span class="text-slate-400 text-xs font-bold">69% Utilization</span>
                     </div>
-                    <p class="text-slate-500 text-sm font-medium">Assets in Use</p>
+                    <p class="text-slate-500 text-sm font-medium">Active Uses</p>
                     <p class="text-3xl font-black mt-1" id="statBorrows">-</p>
                 </div>
                 <!-- Pending Requests -->
@@ -124,7 +124,7 @@ if ($user['role'] !== 'org_admin') {
                         <span class="text-orange-600 text-xs font-bold bg-orange-50 px-2 py-1 rounded">Action
                             Needed</span>
                     </div>
-                    <p class="text-slate-500 text-sm font-medium">Pending Requests</p>
+                    <p class="text-slate-500 text-sm font-medium">To Review</p>
                     <p class="text-3xl font-black mt-1" id="statPending">-</p>
                 </div>
                 <!-- Verification Needed -->
@@ -138,7 +138,7 @@ if ($user['role'] !== 'org_admin') {
                         <span class="text-emerald-600 text-xs font-bold bg-emerald-50 px-2 py-1 rounded">Asset
                             Recovery</span>
                     </div>
-                    <p class="text-slate-500 text-sm font-medium">Verification Needed</p>
+                    <p class="text-slate-500 text-sm font-medium">Returns Pending</p>
                     <p class="text-3xl font-black mt-1" id="statVerifications">-</p>
                 </div>
             </div>

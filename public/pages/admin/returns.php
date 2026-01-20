@@ -10,7 +10,7 @@ RoleMiddleware::authorize(['org_admin']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Returns - Campus Admin</title>
+    <title>Returns - Admin</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&display=swap"
@@ -82,10 +82,10 @@ RoleMiddleware::authorize(['org_admin']);
                         <a href="/ukm/public/pages/admin/dashboard.php"
                             class="hover:text-primary transition-colors">Logistics</a>
                         <span class="material-symbols-outlined text-[10px]">chevron_right</span>
-                        <span class="text-slate-900">Asset Verification</span>
+                        <span class="text-slate-900">Return Verification</span>
                     </nav>
-                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Verification Registry</h1>
-                    <p class="text-slate-500 mt-1 font-medium">Formally verify condition reports and restock assets.</p>
+                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Process Returns</h1>
+                    <p class="text-slate-500 mt-1 font-medium">Verify returned items and check conditions.</p>
                 </div>
             </div>
 
@@ -93,9 +93,9 @@ RoleMiddleware::authorize(['org_admin']);
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
                 <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center">
                     <div>
-                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Pending Verification</h3>
-                        <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Asset Restocking
-                            Queue
+                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Pending Returns</h3>
+                        <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Items awaiting
+                            verification
                         </p>
                     </div>
                     <div class="relative">

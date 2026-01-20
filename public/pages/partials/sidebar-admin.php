@@ -24,7 +24,7 @@ $user = $user ?? AuthMiddleware::authenticate();
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'assets.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'assets.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">inventory_2</span>
-            <span class="text-sm">Inventory Management</span>
+            <span class="text-sm">Asset Management</span>
         </a>
 
         <!-- Requests -->
@@ -32,7 +32,7 @@ $user = $user ?? AuthMiddleware::authenticate();
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'borrow-requests.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'borrow-requests.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">swap_horiz</span>
-            <span class="text-sm">Borrow Request Review</span>
+            <span class="text-sm">Borrow Requests</span>
         </a>
 
 
@@ -45,7 +45,7 @@ $user = $user ?? AuthMiddleware::authenticate();
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'users.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'users.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">group</span>
-            <span class="text-sm">Member Management</span>
+            <span class="text-sm">Members</span>
         </a>
 
         <!-- Maintenance -->
@@ -61,7 +61,7 @@ $user = $user ?? AuthMiddleware::authenticate();
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'returns.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'returns.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">fact_check</span>
-            <span class="text-sm">Return Verification</span>
+            <span class="text-sm">Returns</span>
         </a>
 
         <!-- Reports -->

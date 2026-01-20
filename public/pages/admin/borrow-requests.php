@@ -82,10 +82,10 @@ $isAdmin = true;
                         class="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
                         <a href="dashboard.php" class="hover:text-primary transition-colors">Transactions</a>
                         <span class="material-symbols-outlined text-[10px]">chevron_right</span>
-                        <span class="text-slate-900">Access Requests</span>
+                        <span class="text-slate-900">Borrow Requests</span>
                     </nav>
-                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Access Requests</h1>
-                    <p class="text-slate-500 mt-1 font-medium">Review and process ongoing material requisitions.</p>
+                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Borrow Requests</h1>
+                    <p class="text-slate-500 mt-1 font-medium">Review and process new asset requests.</p>
                 </div>
             </div>
 
@@ -93,9 +93,9 @@ $isAdmin = true;
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
                 <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center">
                     <div>
-                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Access Requisition List</h3>
-                        <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Logistics Control
-                            Registry</p>
+                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Request Queue</h3>
+                        <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Pending items
+                            needing review</p>
                     </div>
                     <div class="relative">
                         <span
@@ -123,7 +123,7 @@ $isAdmin = true;
                                 <?php if ($isAdmin): ?>
                                     <th
                                         class="text-right py-4 px-8 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                        Resolution</th>
+                                        Review Action</th>
                                 <?php endif; ?>
                             </tr>
                         </thead>

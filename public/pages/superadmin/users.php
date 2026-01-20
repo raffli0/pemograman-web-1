@@ -39,16 +39,15 @@ RoleMiddleware::authorize(['super_admin']);
 
         <div class="p-8 max-w-7xl mx-auto w-full">
             <div class="mb-8">
-                <h1 class="text-3xl font-black text-slate-900 tracking-tight">User Registry</h1>
-                <p class="text-slate-500 mt-1 font-medium">Manage all users across the system.</p>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight">All Users</h1>
+                <p class="text-slate-500 mt-1 font-medium">Global user management overview.</p>
             </div>
 
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                 <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center">
                     <div>
-                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Global User Registry</h3>
-                        <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">All System Accounts
-                        </p>
+                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">System Accounts</h3>
+                        <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">All Users</p>
                     </div>
                     <div class="relative">
                         <span

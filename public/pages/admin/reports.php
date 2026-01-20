@@ -14,7 +14,7 @@ if ($user['role'] !== 'org_admin') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports - Campus Admin</title>
+    <title>Reports - Admin</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&display=swap"
@@ -66,15 +66,15 @@ if ($user['role'] !== 'org_admin') {
             <!-- Page Heading & Breadcrumbs -->
             <div class="mb-8">
                 <nav class="flex items-center gap-2 text-xs font-medium text-slate-400 mb-2">
-                    <a class="hover:text-primary transition-colors" href="/ukm/public/pages/admin/dashboard.php">Admin
-                        Hub</a>
+                    <a class="hover:text-primary transition-colors"
+                        href="/ukm/public/pages/admin/dashboard.php">Admin</a>
                     <span class="material-symbols-outlined text-[14px]">chevron_right</span>
                     <span class="text-slate-600">Reports</span>
                 </nav>
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <h2 class="text-3xl font-black text-slate-800 tracking-tight">Reports Center</h2>
                 </div>
-                <p class="text-slate-500 mt-2">Generate and export insights about assets and borrowing activity.</p>
+                <p class="text-slate-500 mt-2">Export system data and activity logs.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">

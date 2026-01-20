@@ -83,8 +83,8 @@ $user = AuthMiddleware::authenticate();
                         <span class="material-symbols-outlined text-[10px]">chevron_right</span>
                         <span class="text-slate-900">History</span>
                     </nav>
-                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Borrowing History</h1>
-                    <p class="text-slate-500 mt-1 font-medium">Archive of your returned and past requests.</p>
+                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Borrow History</h1>
+                    <p class="text-slate-500 mt-1 font-medium">Your past borrowing activity.</p>
                 </div>
             </div>
 
@@ -92,7 +92,7 @@ $user = AuthMiddleware::authenticate();
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
                 <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center">
                     <div>
-                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Past Records</h3>
+                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Activity Log</h3>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
@@ -101,7 +101,7 @@ $user = AuthMiddleware::authenticate();
                             <tr class="border-b border-slate-100">
                                 <th
                                     class="text-left py-4 px-8 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                    Asset Name</th>
+                                    Item Name</th>
                                 <th
                                     class="text-left py-4 px-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                                     Duration</th>
@@ -110,7 +110,7 @@ $user = AuthMiddleware::authenticate();
                                     Status</th>
                                 <th
                                     class="text-left py-4 px-8 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                    Admin Remarks</th>
+                                    Admin Comments</th>
                             </tr>
                         </thead>
                         <tbody id="historyTableBody" class="divide-y divide-slate-50">
@@ -127,7 +127,7 @@ $user = AuthMiddleware::authenticate();
                 </div>
                 <!-- Pagination Footer Style match -->
                 <div class="px-8 py-4 bg-slate-50/50 border-t border-slate-100 flex justify-between items-center">
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">End of Archive</p>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">End of History</p>
                 </div>
             </div>
         </div>

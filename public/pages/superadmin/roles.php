@@ -39,8 +39,8 @@ RoleMiddleware::authorize(['super_admin']);
 
         <div class="p-8 max-w-7xl mx-auto w-full">
             <div class="mb-8">
-                <h1 class="text-3xl font-black text-slate-900 tracking-tight">Role Definitions</h1>
-                <p class="text-slate-500 mt-1 font-medium">View and configure system roles.</p>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight">System Roles</h1>
+                <p class="text-slate-500 mt-1 font-medium">Overview of system access levels.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

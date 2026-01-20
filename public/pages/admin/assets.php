@@ -70,10 +70,10 @@ if ($user['role'] !== 'org_admin') {
                         <a class="hover:text-primary transition-colors" href="/ukm/public/pages/dashboard.php">Admin
                             Hub</a>
                         <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-                        <span class="text-slate-600">Inventory Management</span>
+                        <span class="text-slate-600">Asset Management</span>
                     </nav>
-                    <h2 class="text-3xl font-black text-slate-800 tracking-tight">Asset Inventory</h2>
-                    <p class="text-slate-500 mt-1 font-medium">Manage organizational assets and their lifecycle</p>
+                    <h2 class="text-3xl font-black text-slate-800 tracking-tight">Asset Management</h2>
+                    <p class="text-slate-500 mt-1 font-medium">Manage and track organizational assets</p>
                 </div>
                 <div class="flex gap-2">
                     <button id="addAssetBtn"
@@ -157,9 +157,8 @@ if ($user['role'] !== 'org_admin') {
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
                     <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center">
                         <div>
-                            <h3 class="text-xl font-bold text-slate-900 tracking-tight">Master Inventory Registry</h3>
-                            <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Organizational
-                                Material Assets</p>
+                            <h3 class="text-xl font-bold text-slate-900 tracking-tight">Asset Catalog</h3>
+                            <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">All Assets</p>
                         </div>
                         <div class="flex gap-2">
                             <!-- Admin-only toggles could go here -->
@@ -218,8 +217,8 @@ if ($user['role'] !== 'org_admin') {
         class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-xl max-w-md w-full overflow-hidden border border-slate-200">
             <div class="px-8 py-6 border-b border-slate-100 text-center">
-                <h3 class="text-xl font-bold text-slate-900 tracking-tight" id="modalTitle">Register New Asset</h3>
-                <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Asset Lifecycle Management
+                <h3 class="text-xl font-bold text-slate-900 tracking-tight" id="modalTitle">Add New Asset</h3>
+                <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Asset Details
                 </p>
             </div>
             <form id="assetForm" class="p-8 space-y-5 overflow-y-auto max-h-[70vh]">

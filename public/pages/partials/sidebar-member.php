@@ -16,7 +16,7 @@ $user = $user ?? AuthMiddleware::authenticate();
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'assets.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'assets.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">inventory_2</span>
-            <span class="text-sm">Asset Catalog</span>
+            <span class="text-sm">Browse Assets</span>
         </a>
 
         <!-- My Borrowing Requests -->
@@ -24,7 +24,7 @@ $user = $user ?? AuthMiddleware::authenticate();
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'borrow-requests.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'borrow-requests.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">swap_horiz</span>
-            <span class="text-sm">My Borrowing Requests</span>
+            <span class="text-sm">My Requests</span>
         </a>
 
         <!-- My History -->
@@ -32,7 +32,7 @@ $user = $user ?? AuthMiddleware::authenticate();
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'history.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'history.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">history</span>
-            <span class="text-sm">My History</span>
+            <span class="text-sm">History</span>
         </a>
 
     </nav>

@@ -88,7 +88,7 @@ $user = AuthMiddleware::authenticate();
                                 <span class="material-symbols-outlined">check_circle</span>
                             </div>
                         </div>
-                        <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">Available Assets</p>
+                        <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">Items Ready to Borrow</p>
                         <p id="memberAvailableCount" class="text-3xl font-black mt-1 text-emerald-600">-</p>
                     </div>
                     <div
@@ -98,7 +98,7 @@ $user = AuthMiddleware::authenticate();
                                 <span class="material-symbols-outlined">shopping_bag</span>
                             </div>
                         </div>
-                        <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">Your Active Borrows</p>
+                        <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">My Active Borrows</p>
                         <p id="memberActiveBorrows" class="text-3xl font-black mt-1">-</p>
                     </div>
                     <div
@@ -108,7 +108,7 @@ $user = AuthMiddleware::authenticate();
                                 <span class="material-symbols-outlined">schedule</span>
                             </div>
                         </div>
-                        <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">Pending Requests</p>
+                        <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">My Pending Requests</p>
                         <p id="memberPendingRequests" class="text-3xl font-black mt-1">-</p>
                     </div>
                 </div>
@@ -121,7 +121,7 @@ $user = AuthMiddleware::authenticate();
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
                         <input id="tableSearchInput" type="text"
                             class="block w-full pl-10 pr-3 py-2 border-slate-200 bg-slate-50 rounded-lg focus:ring-primary focus:border-primary text-sm transition-all"
-                            placeholder="Search catalog...">
+                            placeholder="Find items...">
                     </div>
                     <div class="flex items-center gap-2 w-full md:w-auto">
                         <select id="filterCategory"
@@ -141,9 +141,9 @@ $user = AuthMiddleware::authenticate();
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
                     <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center">
                         <div>
-                            <h3 class="text-xl font-bold text-slate-900 tracking-tight">Available Assets</h3>
-                            <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Items in the
-                                catalog</p>
+                            <h3 class="text-xl font-bold text-slate-900 tracking-tight">Catalog Items</h3>
+                            <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Browse items
+                                available for borrowing</p>
                         </div>
                     </div>
                     <div class="overflow-x-auto">
@@ -152,13 +152,13 @@ $user = AuthMiddleware::authenticate();
                                 <tr class="border-b border-slate-100">
                                     <th
                                         class="text-left py-4 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                                        Asset Name</th>
+                                        Item Name</th>
                                     <th
                                         class="text-left py-4 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
                                         Category</th>
                                     <th
                                         class="text-left py-4 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                                        Availability</th>
+                                        Status</th>
                                     <th
                                         class="text-left py-4 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
                                         Location</th>
@@ -200,8 +200,8 @@ $user = AuthMiddleware::authenticate();
         <div class="bg-white rounded-2xl shadow-xl max-w-md w-full overflow-hidden border border-slate-200">
             <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center text-center">
                 <div class="w-full">
-                    <h3 class="text-xl font-bold text-slate-900">Asset Requisition</h3>
-                    <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Request Item Access</p>
+                    <h3 class="text-xl font-bold text-slate-900">Request Item</h3>
+                    <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Borrow Request Form</p>
                 </div>
             </div>
             <form id="borrowForm" class="p-8 space-y-6">

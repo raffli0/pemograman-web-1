@@ -40,8 +40,8 @@ RoleMiddleware::authorize(['super_admin']);
         <div class="p-8 max-w-7xl mx-auto w-full">
             <div class="mb-8 flex justify-between items-end">
                 <div>
-                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Organization Registry</h1>
-                    <p class="text-slate-500 mt-1 font-medium">Manage universities and organizations in the system.</p>
+                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Organizations</h1>
+                    <p class="text-slate-500 mt-1 font-medium">Manage universities and organizations.</p>
                 </div>
                 <button onclick="openOrgModal()"
                     class="px-6 py-3 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/25 hover:bg-primary/90 hover:shadow-primary/40 transform hover:-translate-y-0.5 transition-all flex items-center gap-2">
@@ -53,7 +53,7 @@ RoleMiddleware::authorize(['super_admin']);
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                 <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center">
                     <div>
-                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Registered Organizations</h3>
+                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Organization List</h3>
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@ RoleMiddleware::authorize(['super_admin']);
                             <tr class="border-b border-slate-100">
                                 <th
                                     class="text-left py-4 px-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                                    Organization Name</th>
+                                    Name</th>
                                 <th
                                     class="text-left py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
                                     Status</th>
@@ -72,7 +72,7 @@ RoleMiddleware::authorize(['super_admin']);
                                     Owner</th>
                                 <th
                                     class="text-left py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                                    Date Added</th>
+                                    Created</th>
                                 <th
                                     class="text-right py-4 px-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">
                                     Actions</th>
