@@ -28,10 +28,9 @@ if (strpos($uri, '/api/') !== false) {
     require_once __DIR__ . '/../app/core/RoleMiddleware.php';
 
     $parts = explode('/', trim($uri, '/'));
-    // Expected: [ukm, public, api, controller, action]
 
-    // Adjust index based on your URL structure (e.g. localhost/ukm/public/api/...)
-    // If localhost/ukm/public/api/asset/create -> parts[3] = asset, parts[4] = create
+    // Adjust index based on your URL structure (e.g. localhost/asset_management/public/api/...)
+    // If localhost/asset_management/public/api/asset/create -> parts[3] = asset, parts[4] = create
     $controllerName = isset($parts[3]) ? ucfirst($parts[3]) . 'Controller' : null;
     $actionName = isset($parts[4]) ? $parts[4] : 'index';
 
@@ -97,29 +96,11 @@ if (strpos($uri, '/reports') !== false) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asset Responsibility System</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="assets/css/styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1"
         rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#006e7a",
-                        "primary-dark": "#005a63",
-                    },
-                    fontFamily: {
-                        "display": ["Public Sans", "sans-serif"]
-                    },
-                    backgroundImage: {
-                        'hero-pattern': "url('https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')",
-                    }
-                },
-            },
-        }
-    </script>
     <style>
         body {
             font-family: 'Public Sans', sans-serif;
@@ -261,7 +242,6 @@ if (strpos($uri, '/reports') !== false) {
         </div>
     </section>
 
-    <!-- Footer -->
     <!-- Footer -->
     <footer class="bg-white py-12 border-t border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-center gap-6">

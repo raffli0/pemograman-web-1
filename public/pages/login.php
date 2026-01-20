@@ -17,11 +17,10 @@ Session::init();
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="/ukm/public/assets/js/tailwind-config.js"></script>
+    <link href="../assets/css/styles.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="/ukm/public/assets/css/tailwind-custom.css" rel="stylesheet">
+    <link href="/asset_management/public/assets/css/tailwind-custom.css" rel="stylesheet">
 </head>
 
 <body class="min-h-screen bg-gray-50 font-sans antialiased">
@@ -195,7 +194,7 @@ Session::init();
     </div>
 
     <!-- Auth JS -->
-    <script src="/ukm/public/assets/js/auth.js"></script>
+    <script src="/asset_management/public/assets/js/auth.js"></script>
 </body>
 
 </html>

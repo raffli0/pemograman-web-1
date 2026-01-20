@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * Fetches the latest asset data from the backend API.
  */
 function loadAssets() {
-    fetch('/ukm/public/api/asset/index')
+    fetch('/asset_management/public/api/asset/index')
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
@@ -267,7 +267,7 @@ function handleAssetSubmit(e) {
         description: document.getElementById('description').value
     };
 
-    const url = id ? `/ukm/public/api/asset/update` : '/ukm/public/api/asset/create';
+    const url = id ? `/asset_management/public/api/asset/update` : '/asset_management/public/api/asset/create';
     const method = 'POST';
 
     fetch(url, {
@@ -290,7 +290,7 @@ function handleAssetSubmit(e) {
 function deleteAsset(id) {
     if (!confirm('Are you sure you want to delete this asset?')) return;
 
-    fetch(`/ukm/public/api/asset/delete`, {
+    fetch(`/asset_management/public/api/asset/delete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: id })

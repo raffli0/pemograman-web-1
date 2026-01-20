@@ -14,21 +14,12 @@ if ($user['role'] !== 'org_admin') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maintenance - Admin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1"
         rel="stylesheet" />
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: "#006e7a", "background-light": "#f5f8f8" },
-                    fontFamily: { "display": ["Public Sans", "sans-serif"] },
-                },
-            },
-        }
-    </script>
+    <!-- Tailwind CSS -->
+    <link href="../../assets/css/styles.css" rel="stylesheet">
 </head>
 
 <body class="bg-background-light text-slate-900 h-screen flex overflow-hidden">
@@ -60,6 +51,9 @@ if ($user['role'] !== 'org_admin') {
             <?php include '../footer.php'; ?>
         </div>
     </main>
+
+    <!-- Auth JS -->
+    <script src="../../assets/js/auth.js"></script>
 </body>
 
 </html>

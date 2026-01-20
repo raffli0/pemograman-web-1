@@ -17,25 +17,8 @@ $user = AuthMiddleware::authenticate();
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#006e7a",
-                        "status-green": "#339933",
-                        "status-orange": "#CC801A",
-                        "background-light": "#f5f8f8",
-                        "background-dark": "#0f2123",
-                    },
-                    fontFamily: {
-                        "display": ["Public Sans", "sans-serif"]
-                    },
-                },
-            },
-        }
-    </script>
+    <!-- Tailwind CSS -->
+    <link href="../../assets/css/styles.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Public Sans', sans-serif;
@@ -192,8 +175,8 @@ $user = AuthMiddleware::authenticate();
     </div>
 
     <!-- Scripts -->
-    <script src="/ukm/public/assets/js/auth.js"></script>
-    <script src="/ukm/public/assets/js/member/borrow.js"></script>
+    <script src="/asset_management/public/assets/js/auth.js"></script>
+    <script src="/asset_management/public/assets/js/member/borrow.js"></script>
 </body>
 
 </html>

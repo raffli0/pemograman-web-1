@@ -11,24 +11,14 @@ RoleMiddleware::authorize(['super_admin']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organization Management - Super Admin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="../../assets/css/styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1"
         rel="stylesheet" />
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: "#7e22ce", "background-light": "#f5f8f8" }, // Purple for SuperAdmin
-                    fontFamily: { "display": ["Public Sans", "sans-serif"] },
-                },
-            },
-        }
-    </script>
 </head>
 
-<body class="bg-background-light text-slate-900 h-screen flex overflow-hidden">
+<body class="bg-background-light text-slate-900 h-screen flex overflow-hidden" data-role="super_admin">
     <?php include '../partials/sidebar-superadmin.php'; ?>
     <main class="flex-1 overflow-y-auto h-full flex flex-col">
         <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
@@ -149,8 +139,8 @@ RoleMiddleware::authorize(['super_admin']);
         </div>
     </div>
 
-    <script src="/ukm/public/assets/js/auth.js?v=<?php echo time(); ?>"></script>
-    <script src="/ukm/public/assets/js/superadmin/organizations.js?v=<?php echo time(); ?>"></script>
+    <script src="/asset_management/public/assets/js/auth.js?v=<?php echo time(); ?>"></script>
+    <script src="/asset_management/public/assets/js/superadmin/organizations.js?v=<?php echo time(); ?>"></script>
 </body>
 
 </html>

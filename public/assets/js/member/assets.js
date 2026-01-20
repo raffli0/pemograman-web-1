@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * Updates state, UI, and statistics.
  */
 function loadAssets() {
-    fetch('/ukm/public/api/asset/index')
+    fetch('/asset_management/public/api/asset/index')
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
@@ -143,7 +143,7 @@ function updateStats() {
         elMemAvail.textContent = available;
 
         // Fetch User Specific Stats from Backend
-        fetch('/ukm/public/api/dashboard/index')
+        fetch('/asset_management/public/api/dashboard/index')
             .then(res => res.json())
             .then(res => {
                 if (res.status === 'success') {
@@ -249,7 +249,7 @@ function handleBorrowSubmit(e) {
         purpose: document.getElementById('purpose').value
     };
 
-    fetch('/ukm/public/api/borrow/create', {
+    fetch('/asset_management/public/api/borrow/create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

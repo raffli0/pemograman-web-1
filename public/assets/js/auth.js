@@ -3,7 +3,7 @@
  * Handles Authentication, Token Management, and Shared API Helpers
  */
 
-const API_BASE = '/ukm/public/api';
+const API_BASE = '/asset_management/public/api';
 
 
 
@@ -26,7 +26,7 @@ async function fetchAPI(endpoint, method = 'GET', data = null) {
     if (response.status === 401) {
         // Only redirect if not already on login page
         if (!window.location.pathname.includes('login.php')) {
-            window.location.href = '/ukm/public/pages/login.php';
+            window.location.href = '/asset_management/public/pages/login.php';
         }
         throw new Error('Unauthorized');
     }
@@ -48,7 +48,7 @@ async function logout() {
         await fetchAPI('/auth/logout', 'POST');
     } finally {
         localStorage.removeItem('user_role');
-        window.location.href = '/ukm/public/pages/login.php';
+        window.location.href = '/asset_management/public/pages/login.php';
     }
 }
 
@@ -77,9 +77,9 @@ async function handleLoginSubmit(e) {
             localStorage.setItem('user_role', res.data.role);
             // Redirect based on role
             if (res.data.role === 'org_admin' || res.data.role === 'super_admin') {
-                window.location.href = '/ukm/public/pages/admin/dashboard.php';
+                window.location.href = '/asset_management/public/pages/admin/dashboard.php';
             } else {
-                window.location.href = '/ukm/public/pages/member/assets.php';
+                window.location.href = '/asset_management/public/pages/member/assets.php';
             }
         }
     } catch (err) {

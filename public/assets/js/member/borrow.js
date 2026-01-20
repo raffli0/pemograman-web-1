@@ -189,7 +189,7 @@ async function handleReturnSubmit(e) {
             formData.append('return_proof', fileInput.files[0]);
         }
 
-        const response = await fetch('/ukm/public/api/borrow/submitReturn', {
+        const response = await fetch('/asset_management/public/api/borrow/submitReturn', {
             method: 'POST',
             body: formData
         });

@@ -20,24 +20,7 @@ $isAdmin = ($user['role'] === 'org_admin');
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#006e7a",
-                        "status-green": "#339933",
-                        "background-light": "#f5f8f8",
-                        "background-dark": "#0f2123",
-                    },
-                    fontFamily: {
-                        "display": ["Public Sans", "sans-serif"]
-                    },
-                },
-            },
-        }
-    </script>
+    <link href="../../assets/css/styles.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Public Sans', sans-serif;
@@ -81,7 +64,7 @@ $isAdmin = ($user['role'] === 'org_admin');
                 <div>
                     <nav
                         class="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
-                        <a href="/ukm/public/pages/admin/dashboard.php"
+                        <a href="/asset_management/public/pages/admin/dashboard.php"
                             class="hover:text-primary transition-colors">Admin</a>
                         <span class="material-symbols-outlined text-[10px]">chevron_right</span>
                         <span class="text-slate-900">Members</span>
@@ -235,8 +218,8 @@ $isAdmin = ($user['role'] === 'org_admin');
     </div>
 
     <!-- Scripts -->
-    <script src="/ukm/public/assets/js/auth.js"></script>
-    <script src="/ukm/public/assets/js/admin/users.js?v=<?php echo time(); ?>"></script>
+    <script src="/asset_management/public/assets/js/auth.js"></script>
+    <script src="/asset_management/public/assets/js/admin/users.js?v=<?php echo time(); ?>"></script>
 
 </body>
 

@@ -13,10 +13,8 @@
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../assets/js/tailwind-config.js"></script>
-
-    <!-- Custom CSS -->
+    <link href="../assets/css/styles.css" rel="stylesheet">
+    <!-- Custom CSS (Keep if needed, or rely on styles.css) -->
     <link href="../assets/css/tailwind-custom.css" rel="stylesheet">
 </head>
 

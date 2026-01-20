@@ -20,23 +20,7 @@ $isAdmin = true;
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#006e7a",
-                        "background-light": "#f5f8f8",
-                        "background-dark": "#0f2123",
-                    },
-                    fontFamily: {
-                        "display": ["Public Sans", "sans-serif"]
-                    },
-                },
-            },
-        }
-    </script>
+    <link href="../../assets/css/styles.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Public Sans', sans-serif;
@@ -239,8 +223,8 @@ $isAdmin = true;
     </div>
 
     <!-- Scripts -->
-    <script src="/ukm/public/assets/js/auth.js"></script>
-    <script src="/ukm/public/assets/js/admin/borrow-approval.js"></script>
+    <script src="/asset_management/public/assets/js/auth.js"></script>
+    <script src="/asset_management/public/assets/js/admin/borrow-approval.js"></script>
     <script>
         window.isAdmin = <?php echo json_encode($isAdmin); ?>;
         document.addEventListener('DOMContentLoaded', () => loadRequests(window.isAdmin));

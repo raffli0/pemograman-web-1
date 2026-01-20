@@ -14,7 +14,7 @@ $user = $user ?? AuthMiddleware::authenticate();
 
     <nav class="flex-1 px-4 space-y-1 mt-4 overflow-y-auto">
         <!-- Dashboard -->
-        <a href="/ukm/public/pages/admin/dashboard.php"
+        <a href="/asset_management/public/pages/admin/dashboard.php"
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'dashboard.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'dashboard.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">dashboard</span>
@@ -26,7 +26,7 @@ $user = $user ?? AuthMiddleware::authenticate();
         </div>
 
         <!-- Organizations -->
-        <a href="/ukm/public/pages/superadmin/organizations.php"
+        <a href="/asset_management/public/pages/superadmin/organizations.php"
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'organizations.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'organizations.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">domain</span>
@@ -34,7 +34,7 @@ $user = $user ?? AuthMiddleware::authenticate();
         </a>
 
         <!-- Users -->
-        <a href="/ukm/public/pages/superadmin/users.php"
+        <a href="/asset_management/public/pages/superadmin/users.php"
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'users.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'users.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">manage_accounts</span>
@@ -42,7 +42,7 @@ $user = $user ?? AuthMiddleware::authenticate();
         </a>
 
         <!-- Roles -->
-        <a href="/ukm/public/pages/superadmin/roles.php"
+        <a href="/asset_management/public/pages/superadmin/roles.php"
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'roles.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'roles.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">badge</span>
@@ -65,4 +65,4 @@ $user = $user ?? AuthMiddleware::authenticate();
         </button>
     </div>
 </aside>
-<script src="/ukm/public/assets/js/ui.js?v=<?php echo time(); ?>"></script>
+<script src="/asset_management/public/assets/js/ui.js?v=<?php echo time(); ?>"></script>

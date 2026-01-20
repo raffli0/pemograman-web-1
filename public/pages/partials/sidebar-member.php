@@ -12,7 +12,7 @@ $user = $user ?? AuthMiddleware::authenticate();
 
     <nav class="flex-1 px-4 space-y-1 mt-4 overflow-y-auto">
         <!-- Asset Catalog -->
-        <a href="/ukm/public/pages/member/assets.php"
+        <a href="/asset_management/public/pages/member/assets.php"
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'assets.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'assets.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">inventory_2</span>
@@ -20,7 +20,7 @@ $user = $user ?? AuthMiddleware::authenticate();
         </a>
 
         <!-- My Borrowing Requests -->
-        <a href="/ukm/public/pages/member/borrow-requests.php"
+        <a href="/asset_management/public/pages/member/borrow-requests.php"
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'borrow-requests.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'borrow-requests.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">swap_horiz</span>
@@ -28,7 +28,7 @@ $user = $user ?? AuthMiddleware::authenticate();
         </a>
 
         <!-- My History -->
-        <a href="/ukm/public/pages/member/history.php"
+        <a href="/asset_management/public/pages/member/history.php"
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], 'history.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
             <span class="material-symbols-outlined"
                 style="<?php echo strpos($_SERVER['PHP_SELF'], 'history.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">history</span>
@@ -52,4 +52,4 @@ $user = $user ?? AuthMiddleware::authenticate();
         </button>
     </div>
 </aside>
-<script src="/ukm/public/assets/js/ui.js?v=<?php echo time(); ?>"></script>
+<script src="/asset_management/public/assets/js/ui.js?v=<?php echo time(); ?>"></script>

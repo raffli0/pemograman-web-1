@@ -126,7 +126,7 @@ function openVerifyModal(req) {
     // Image
     const proofCont = document.getElementById('verifyProofContainer');
     if (req.return_proof_image) {
-        proofCont.innerHTML = `<img src="/ukm/public/${req.return_proof_image}" class="w-full h-auto object-cover" alt="Proof">`;
+        proofCont.innerHTML = `<img src="/asset_management/public/${req.return_proof_image}" class="w-full h-auto object-cover" alt="Proof">`;
     } else {
         proofCont.innerHTML = `<span class="text-xs text-slate-400 font-medium">No image uploaded</span>`;
     }

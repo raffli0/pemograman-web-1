@@ -23,25 +23,8 @@ if ($user['role'] !== 'org_admin') {
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#006e7a",
-                        "status-green": "#339933",
-                        "status-orange": "#CC801A",
-                        "background-light": "#f5f8f8",
-                        "background-dark": "#0f2123",
-                    },
-                    fontFamily: {
-                        "display": ["Public Sans", "sans-serif"]
-                    },
-                },
-            },
-        }
-    </script>
+    <!-- Tailwind CSS -->
+    <link href="../../assets/css/styles.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Public Sans', sans-serif;
@@ -67,7 +50,7 @@ if ($user['role'] !== 'org_admin') {
             <div class="mb-8">
                 <nav class="flex items-center gap-2 text-xs font-medium text-slate-400 mb-2">
                     <a class="hover:text-primary transition-colors"
-                        href="/ukm/public/pages/admin/dashboard.php">Admin</a>
+                        href="/asset_management/public/pages/admin/dashboard.php">Admin</a>
                     <span class="material-symbols-outlined text-[14px]">chevron_right</span>
                     <span class="text-slate-600">Reports</span>
                 </nav>
@@ -190,13 +173,16 @@ if ($user['role'] !== 'org_admin') {
 
             if (format === 'csv') {
                 // Direct link to API endpoint triggers download
-                window.location.href = `/ukm/public/api/report/exportCsv?${params.toString()}`;
+                window.location.href = `/asset_management/public/api/report/exportCsv?${params.toString()}`;
             } else if (format === 'print') {
                 // Open print view in new tab
                 window.open(`../print_report.php?${params.toString()}`, '_blank');
             }
         }
     </script>
+
+    <!-- Auth JS -->
+    <script src="../../assets/js/auth.js"></script>
 </body>
 
 </html>

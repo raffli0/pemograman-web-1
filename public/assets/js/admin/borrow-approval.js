@@ -178,7 +178,7 @@ function openVerifyModal(req) {
     // Populate Proof Image
     const proofCont = document.getElementById('verifyProofContainer');
     if (req.return_proof_image) {
-        proofCont.innerHTML = `<img src="/ukm/public/${req.return_proof_image}" class="w-full h-auto object-cover" alt="Proof">`;
+        proofCont.innerHTML = `<img src="/asset_management/public/${req.return_proof_image}" class="w-full h-auto object-cover" alt="Proof">`;
     } else {
         proofCont.innerHTML = `<span class="text-xs text-slate-400 font-medium">No image uploaded</span>`;
     }
@@ -276,7 +276,7 @@ async function handleReturnSubmit(e) {
         }
 
         // Use fetch directly for FormData to avoid Content-Type issues with Auth wrapper
-        const response = await fetch('/ukm/public/api/borrow/submitReturn', {
+        const response = await fetch('/asset_management/public/api/borrow/submitReturn', {
             method: 'POST',
             body: formData
         });

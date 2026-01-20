@@ -17,30 +17,12 @@ if ($user['role'] !== 'org_admin') {
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Admin Dashboard Overview - Campus Workflow</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="../../assets/css/styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&display=swap"
         rel="stylesheet" />
 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#006e7a",
-                        "background-light": "#f5f8f8",
-                        "background-dark": "#0f2123",
-                    },
-                    fontFamily: {
-                        "display": ["Public Sans", "sans-serif"]
-                    },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
-                },
-            },
-        }
-    </script>
     <style>
         body {
             font-family: 'Public Sans', sans-serif;
@@ -65,7 +47,7 @@ if ($user['role'] !== 'org_admin') {
             <!-- Page Heading & Breadcrumbs -->
             <div class="mb-8">
                 <nav class="flex items-center gap-2 text-xs font-medium text-slate-400 mb-2">
-                    <a class="hover:text-primary transition-colors" href="/ukm/public/pages/admin/dashboard.php">Admin
+                    <a class="hover:text-primary transition-colors" href="/asset_management/public/pages/admin/dashboard.php">Admin
                         Overview</a>
                     <span class="material-symbols-outlined text-[14px]">chevron_right</span>
                     <span class="text-slate-600">Home</span>
@@ -214,7 +196,7 @@ if ($user['role'] !== 'org_admin') {
                 </div>
             </div>
 
-            <script src="/ukm/public/assets/js/auth.js"></script>
+            <script src="/asset_management/public/assets/js/auth.js"></script>
             <script>
                 async function loadStats() {
                     try {

@@ -11,7 +11,7 @@ class AuthMiddleware
             if (self::isApiRequest()) {
                 Response::json('error', 'Unauthorized access', [], 401);
             } else {
-                header("Location: /ukm/public/pages/login.php");
+                header("Location: /asset_management/public/pages/login.php");
                 exit;
             }
         }
@@ -24,7 +24,7 @@ class AuthMiddleware
                 Response::json('error', 'Invalid token', [], 401);
             } else {
                 setcookie("auth_token", "", time() - 3600, "/"); // clear cookie
-                header("Location: /ukm/public/pages/login.php");
+                header("Location: /asset_management/public/pages/login.php");
                 exit;
             }
         }

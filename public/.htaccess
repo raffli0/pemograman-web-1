@@ -1,7 +1,17 @@
-RewriteEngine On
-RewriteBase /ukm/public/
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /asset_management/public/
+    
+    # Only route /api/ requests to index.php
+    # Don't touch static files (js, css, images, etc)
+    RewriteRule ^api/(.*)$ index.php [L,QSA]
+</IfModule>
 
-# Redirect everything to index.php if it's not a real file or directory
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^ index.php [L]
+# Security: Disable directory browsing
+Options -Indexes
+
+# Security: Protect sensitive files
+<FilesMatch "\.(env|git|htaccess|sql)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

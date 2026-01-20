@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../../app/core/AuthMiddleware.php';
 $user = AuthMiddleware::authenticate();
 
 if ($user['role'] !== 'super_admin') {
-    header("Location: /ukm/public/pages/login.php");
+    header("Location: /asset_management/public/pages/login.php");
     exit;
 }
 ?>
@@ -14,24 +14,14 @@ if ($user['role'] !== 'super_admin') {
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Super Admin Dashboard - System Overview</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="../../assets/css/styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: "#7e22ce", "background-light": "#f5f8f8" }, // Purple for SuperAdmin
-                    fontFamily: { "display": ["Public Sans", "sans-serif"] },
-                },
-            },
-        }
-    </script>
 </head>
 
-<body class="bg-background-light text-slate-900 h-screen flex overflow-hidden">
+<body class="bg-background-light text-slate-900 h-screen flex overflow-hidden" data-role="super_admin">
 
     <?php include '../partials/sidebar-superadmin.php'; ?>
 
@@ -113,7 +103,7 @@ if ($user['role'] !== 'super_admin') {
                         <div class="text-center py-4 text-slate-400 text-sm">Loading...</div>
                     </div>
                     <div class="mt-4 pt-4 border-t border-slate-50 text-center">
-                        <a href="/ukm/public/pages/superadmin/organizations.php"
+                        <a href="/asset_management/public/pages/superadmin/organizations.php"
                             class="text-sm font-bold text-primary hover:text-primary/80 transition-colors">
                             View All Organizations &rarr;
                         </a>
@@ -124,13 +114,13 @@ if ($user['role'] !== 'super_admin') {
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                     <h3 class="text-lg font-bold text-slate-900 mb-4">Administrative Actions</h3>
                     <div class="grid grid-cols-2 gap-4">
-                        <a href="/ukm/public/pages/superadmin/organizations.php"
+                        <a href="/asset_management/public/pages/superadmin/organizations.php"
                             class="p-4 bg-slate-50 rounded-xl hover:bg-purple-50 hover:text-purple-700 transition-all border border-slate-100 group text-center">
                             <span
                                 class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-purple-600 mb-2">add_business</span>
                             <p class="text-xs font-bold uppercase tracking-wider">New Organization</p>
                         </a>
-                        <a href="/ukm/public/pages/superadmin/users.php"
+                        <a href="/asset_management/public/pages/superadmin/users.php"
                             class="p-4 bg-slate-50 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all border border-slate-100 group text-center">
                             <span
                                 class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-blue-600 mb-2">person_add</span>
@@ -140,8 +130,8 @@ if ($user['role'] !== 'super_admin') {
                 </div>
             </div>
 
-            <script src="/ukm/public/assets/js/auth.js"></script>
-            <script src="/ukm/public/assets/js/superadmin/dashboard.js"></script>
+            <script src="/asset_management/public/assets/js/auth.js"></script>
+            <script src="/asset_management/public/assets/js/superadmin/dashboard.js"></script>
         </div>
 
         <div class="py-6 text-center">
