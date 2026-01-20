@@ -1,6 +1,8 @@
 # Security
 .env
 .env.backup
+active_env.php
+app/config/env.php
 *.sql
 auth.json
 

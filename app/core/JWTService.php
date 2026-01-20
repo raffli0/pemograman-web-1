@@ -5,6 +5,12 @@ class JWTService
     // Secret key is now fetched from environment
     private static function getSecretKey()
     {
+        // Ensure Env is loaded if invalidating tokens
+        if (!getenv('JWT_SECRET')) {
+            if (file_exists(__DIR__ . '/../config/env.php')) {
+                require_once __DIR__ . '/../config/env.php';
+            }
+        }
         return getenv('JWT_SECRET') ?: 'FALLBACK_SECRET_FOR_DEV_ONLY';
     }
 

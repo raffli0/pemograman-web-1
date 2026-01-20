@@ -14,23 +14,32 @@ $user = $user ?? AuthMiddleware::authenticate(); // Ensure user is available
 
     <nav class="flex-1 px-4 space-y-1 mt-4 overflow-y-auto">
         <?php if ($user['role'] === 'org_admin' || $user['role'] === 'super_admin'): ?>
-            <a href="dashboard.php"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo $currentPage == 'dashboard.php' ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
+            <a href="/ukm/public/pages/admin/dashboard.php"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], '/admin/dashboard.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
                 <span class="material-symbols-outlined"
-                    style="<?php echo $currentPage == 'dashboard.php' ? "font-variation-settings: 'FILL' 1" : ''; ?>">dashboard</span>
+                    style="<?php echo strpos($_SERVER['PHP_SELF'], '/admin/dashboard.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">dashboard</span>
                 <span class="text-sm">Dashboard</span>
+            </a>
+
+            <!-- Admin Inventory Link -->
+            <a href="/ukm/public/pages/admin/assets.php"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], '/admin/assets.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
+                <span class="material-symbols-outlined"
+                    style="<?php echo strpos($_SERVER['PHP_SELF'], '/admin/assets.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">inventory_2</span>
+                <span class="text-sm">Inventory</span>
+            </a>
+        <?php else: ?>
+            <!-- Member Catalog Link -->
+            <a href="/ukm/public/pages/member/assets.php"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], '/member/assets.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
+                <span class="material-symbols-outlined"
+                    style="<?php echo strpos($_SERVER['PHP_SELF'], '/member/assets.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">inventory_2</span>
+                <span class="text-sm">Asset Catalog</span>
             </a>
         <?php endif; ?>
 
         <?php if ($user['role'] !== 'super_admin'): ?>
-            <a href="assets.php"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo $currentPage == 'assets.php' ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
-                <span class="material-symbols-outlined"
-                    style="<?php echo $currentPage == 'assets.php' ? "font-variation-settings: 'FILL' 1" : ''; ?>">inventory_2</span>
-                <span class="text-sm">Inventory</span>
-            </a>
-
-            <a href="borrow.php"
+            <a href="/ukm/public/pages/borrow.php"
                 class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo $currentPage == 'borrow.php' ? 'bg-primary/10 text-primary font-semibold count-badge-container' : 'text-slate-600 hover:bg-slate-50 relative'; ?>">
                 <span class="material-symbols-outlined"
                     style="<?php echo $currentPage == 'borrow.php' ? "font-variation-settings: 'FILL' 1" : ''; ?>">move_to_inbox</span>
@@ -44,24 +53,24 @@ $user = $user ?? AuthMiddleware::authenticate(); // Ensure user is available
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Administration</p>
             </div>
 
-            <a href="users.php"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo $currentPage == 'users.php' ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
+            <a href="/ukm/public/pages/admin/users.php"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], '/admin/users.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
                 <span class="material-symbols-outlined"
-                    style="<?php echo $currentPage == 'users.php' ? "font-variation-settings: 'FILL' 1" : ''; ?>">group</span>
+                    style="<?php echo strpos($_SERVER['PHP_SELF'], '/admin/users.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">group</span>
                 <span class="text-sm">Members</span>
             </a>
 
-            <a href="returns.php"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo $currentPage == 'returns.php' ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
+            <a href="/ukm/public/pages/admin/returns.php"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], '/admin/returns.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
                 <span class="material-symbols-outlined"
-                    style="<?php echo $currentPage == 'returns.php' ? "font-variation-settings: 'FILL' 1" : ''; ?>">fact_check</span>
+                    style="<?php echo strpos($_SERVER['PHP_SELF'], '/admin/returns.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">fact_check</span>
                 <span class="text-sm">Verification</span>
             </a>
 
-            <a href="reports.php"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo $currentPage == 'reports.php' ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
+            <a href="/ukm/public/pages/admin/reports.php"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], '/admin/reports.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
                 <span class="material-symbols-outlined"
-                    style="<?php echo $currentPage == 'reports.php' ? "font-variation-settings: 'FILL' 1" : ''; ?>">description</span>
+                    style="<?php echo strpos($_SERVER['PHP_SELF'], '/admin/reports.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">description</span>
                 <span class="text-sm">Reports</span>
             </a>
         <?php endif; ?>

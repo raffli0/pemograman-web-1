@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . '/../../app/core/AuthMiddleware.php';
+require_once __DIR__ . '/../../../app/core/AuthMiddleware.php';
 $user = AuthMiddleware::authenticate();
 if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
-    header("Location: assets.php");
+    header("Location: ../member/assets.php");
     exit;
 }
 ?>
@@ -52,18 +52,19 @@ if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
 
 <body class="bg-background-light text-slate-900 h-screen flex overflow-hidden">
 
-    <?php include 'sidebar.php'; ?>
+    <?php include '../sidebar.php'; ?>
 
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col overflow-y-auto h-screen">
         <!-- Top Navigation Bar -->
-        <?php include 'header.php'; ?>
+        <?php include '../header.php'; ?>
 
         <div class="p-8 pb-24">
             <!-- Page Heading & Breadcrumbs -->
             <div class="mb-8">
                 <nav class="flex items-center gap-2 text-xs font-medium text-slate-400 mb-2">
-                    <a class="hover:text-primary transition-colors" href="#">Admin Hub</a>
+                    <a class="hover:text-primary transition-colors" href="/ukm/public/pages/admin/dashboard.php">Admin
+                        Hub</a>
                     <span class="material-symbols-outlined text-[14px]">chevron_right</span>
                     <span class="text-slate-600">Dashboard</span>
                 </nav>
@@ -114,8 +115,8 @@ if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
                         </table>
                     </div>
                 </div>
-                <script src="../assets/js/auth.js"></script>
-                <script src="../assets/js/organization.js"></script>
+                <script src="/ukm/public/assets/js/auth.js"></script>
+                <script src="/ukm/public/assets/js/organization.js"></script>
                 <script>loadOrganizations();</script>
 
             <?php else: ?>
@@ -248,7 +249,7 @@ if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
                     </div>
                 </div>
 
-                <script src="../assets/js/auth.js"></script>
+                <script src="/ukm/public/assets/js/auth.js"></script>
                 <script>
                     async function loadStats() {
                         try {
@@ -313,7 +314,7 @@ if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
             <?php endif; ?>
         </div>
         <div class="py-6 text-center">
-            <?php include 'footer.php'; ?>
+            <?php include '../footer.php'; ?>
         </div>
 
     </main>

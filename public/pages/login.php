@@ -18,10 +18,10 @@ Session::init();
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../assets/js/tailwind-config.js"></script>
+    <script src="/ukm/public/assets/js/tailwind-config.js"></script>
 
     <!-- Custom CSS -->
-    <link href="../assets/css/tailwind-custom.css" rel="stylesheet">
+    <link href="/ukm/public/assets/css/tailwind-custom.css" rel="stylesheet">
 </head>
 
 <body class="min-h-screen bg-gray-50 font-sans antialiased">
@@ -164,7 +164,7 @@ Session::init();
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit"
+                        <button type="button" id="loginBtn"
                             class="btn-hover w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
                             <span class="relative z-10">Sign In</span>
                         </button>
@@ -195,7 +195,7 @@ Session::init();
     </div>
 
     <!-- Auth JS -->
-    <script src="../assets/js/auth.js"></script>
+    <script src="/ukm/public/assets/js/auth.js"></script>
 </body>
 
 </html>

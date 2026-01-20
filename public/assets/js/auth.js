@@ -5,6 +5,8 @@
 
 const API_BASE = '/ukm/public/api';
 
+
+
 // Core Fetch Wrapper
 async function fetchAPI(endpoint, method = 'GET', data = null) {
     const options = {
@@ -24,7 +26,7 @@ async function fetchAPI(endpoint, method = 'GET', data = null) {
     if (response.status === 401) {
         // Only redirect if not already on login page
         if (!window.location.pathname.includes('login.php')) {
-            window.location.href = 'login.php';
+            window.location.href = '/ukm/public/pages/login.php';
         }
         throw new Error('Unauthorized');
     }
@@ -46,27 +48,67 @@ async function logout() {
         await fetchAPI('/auth/logout', 'POST');
     } finally {
         localStorage.removeItem('user_role');
-        window.location.href = 'login.php';
+        window.location.href = '/ukm/public/pages/login.php';
     }
 }
 
 // For use in forms
-const loginForm = document.getElementById('loginForm');
-if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const errorMsg = document.getElementById('error-msg');
+const loginBtn = document.getElementById('loginBtn');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
 
-        try {
-            const res = await login(email, password);
-            if (res.status === 'success') {
-                localStorage.setItem('user_role', res.data.role);
-                window.location.href = 'dashboard.php';
+async function handleLoginSubmit(e) {
+    if (e) e.preventDefault();
+
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    const errorMsg = document.getElementById('error-msg');
+
+    // Add loading state
+    if (loginBtn) {
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<span class="relative z-10">Signing In...</span>';
+    }
+
+    try {
+        const res = await login(email, password);
+
+        if (res.status === 'success') {
+            localStorage.setItem('user_role', res.data.role);
+            // Redirect based on role
+            if (res.data.role === 'org_admin' || res.data.role === 'super_admin') {
+                window.location.href = '/ukm/public/pages/admin/dashboard.php';
+            } else {
+                window.location.href = '/ukm/public/pages/member/assets.php';
             }
-        } catch (err) {
-            if (errorMsg) errorMsg.textContent = 'Invalid credentials. Please try again.';
+        }
+    } catch (err) {
+        console.error('Login Error:', err);
+        if (errorMsg) errorMsg.textContent = 'Invalid credentials or Server Error. Check console.';
+    } finally {
+        if (loginBtn) {
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = '<span class="relative z-10">Sign In</span>';
+        }
+    }
+}
+
+if (loginBtn) {
+    loginBtn.addEventListener('click', handleLoginSubmit);
+}
+
+// Bind Enter Key
+if (passwordInput) {
+    passwordInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            handleLoginSubmit(e);
+        }
+    });
+}
+if (emailInput) {
+    emailInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            handleLoginSubmit(e);
         }
     });
 }

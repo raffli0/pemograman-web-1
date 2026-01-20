@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../../app/core/AuthMiddleware.php';
-require_once __DIR__ . '/../../app/core/RoleMiddleware.php';
+require_once __DIR__ . '/../../../app/core/AuthMiddleware.php';
+require_once __DIR__ . '/../../../app/core/RoleMiddleware.php';
 $user = AuthMiddleware::authenticate();
 RoleMiddleware::authorize(['org_admin']);
 ?>
@@ -67,11 +67,11 @@ RoleMiddleware::authorize(['org_admin']);
 
 <body class="bg-background-light text-slate-900 min-h-screen flex overflow-hidden">
 
-    <?php include 'sidebar.php'; ?>
+    <?php include '../sidebar.php'; ?>
 
     <main class="flex-1 overflow-y-auto h-full flex flex-col">
         <!-- Sticky Header -->
-        <?php include 'header.php'; ?>
+        <?php include '../header.php'; ?>
 
         <div class="p-8 max-w-7xl mx-auto w-full">
             <!-- Page Heading -->
@@ -79,7 +79,8 @@ RoleMiddleware::authorize(['org_admin']);
                 <div>
                     <nav
                         class="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
-                        <a href="dashboard.php" class="hover:text-primary transition-colors">Logistics</a>
+                        <a href="/ukm/public/pages/admin/dashboard.php"
+                            class="hover:text-primary transition-colors">Logistics</a>
                         <span class="material-symbols-outlined text-[10px]">chevron_right</span>
                         <span class="text-slate-900">Asset Verification</span>
                     </nav>
@@ -229,8 +230,8 @@ RoleMiddleware::authorize(['org_admin']);
     </div>
 
     <!-- Scripts -->
-    <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/return.js?v=<?php echo time(); ?>"></script>
+    <script src="/ukm/public/assets/js/auth.js"></script>
+    <script src="/ukm/public/assets/js/return.js?v=<?php echo time(); ?>"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => loadReturns());
     </script>

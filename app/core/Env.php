@@ -14,19 +14,37 @@ class Env
 
         $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         foreach ($lines as $line) {
-            if (strpos(trim($line), '#') === 0) {
+            $line = trim($line);
+
+            // Skip comments and empty lines
+            if (empty($line) || strpos($line, '#') === 0) {
                 continue;
             }
 
-            list($name, $value) = explode('=', $line, 2);
-            $name = trim($name);
-            $value = trim($value);
+            // Split by first =
+            $parts = explode('=', $line, 2);
 
-            if (!array_key_exists($name, $_SERVER) && !array_key_exists($name, $_ENV)) {
-                putenv(sprintf('%s=%s', $name, $value));
-                $_ENV[$name] = $value;
-                $_SERVER[$name] = $value;
+            // Skip invalid lines (no value assignment)
+            if (count($parts) !== 2) {
+                continue;
             }
+
+            $name = trim($parts[0]);
+            $value = trim($parts[1]);
+
+            // Handle Quotes (Double)
+            if (strpos($value, '"') === 0 && strrpos($value, '"') === strlen($value) - 1) {
+                $value = substr($value, 1, -1);
+            }
+            // Handle Quotes (Single)
+            elseif (strpos($value, "'") === 0 && strrpos($value, "'") === strlen($value) - 1) {
+                $value = substr($value, 1, -1);
+            }
+
+            // Always set environment variable (Overwrite allow)
+            putenv(sprintf('%s=%s', $name, $value));
+            $_ENV[$name] = $value;
+            $_SERVER[$name] = $value;
         }
     }
 }

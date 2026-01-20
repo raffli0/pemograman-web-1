@@ -1,6 +1,6 @@
 /**
- * asset.js
- * Manages the interactive functionality of the Asset Inventory page.
+ * admin_asset.js
+ * Manages the interactive functionality of the Admin Asset Inventory page.
  * Handles CRUD operations, search/filtering, and CSV export.
  */
 
@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('filterCategory')?.addEventListener('change', filterAssets);
     document.getElementById('filterStatus')?.addEventListener('change', filterAssets);
     document.getElementById('assetForm')?.addEventListener('submit', handleAssetSubmit);
-    document.getElementById('borrowForm')?.addEventListener('submit', handleBorrowSubmit);
 
     // Modal Callbacks
     document.getElementById('addAssetBtn')?.addEventListener('click', () => {
@@ -33,13 +32,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('exportCsvBtn')?.addEventListener('click', exportToCSV);
 
     // --- Cross-Page Action Handling ---
-    // Checks URL parameters for actions triggering from other pages (e.g., "Add New" from Dashboard)
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('action') === 'new_asset') {
-        // Clean URL to prevent re-opening on refresh
         window.history.replaceState({}, document.title, window.location.pathname);
-
-        // Trigger Add Modal
         clearAssetForm();
         document.getElementById('assetModal')?.classList.remove('hidden');
     }
@@ -47,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /**
  * Fetches the latest asset data from the backend API.
- * Updates state, UI, and statistics.
  */
 function loadAssets() {
     fetch('/ukm/public/api/asset/index')
@@ -56,8 +50,6 @@ function loadAssets() {
             if (data.status === 'success') {
                 assets = data.data;
                 filteredAssets = assets;
-
-                // Refresh UI components
                 displayAssets();
                 updateStats();
                 populateCategories();
@@ -67,8 +59,7 @@ function loadAssets() {
 }
 
 /**
- * Renders the asset list into the HTML table.
- * Dynamically builds rows based on `filteredAssets` state.
+ * Renders the asset list into the HTML table (Admin View).
  */
 function displayAssets() {
     const tbody = document.getElementById('assetTableBody');
@@ -83,75 +74,35 @@ function displayAssets() {
         let statusBadge = '';
         let statusColor = '';
 
-        const isAdmin = document.body.dataset.isAdmin === 'true';
-
-        if (isAdmin) {
-            switch (asset.status) {
-                case 'active':
-                    statusColor = 'bg-emerald-50 text-emerald-700';
-                    statusBadge = 'Available';
-                    break;
-                case 'in_use':
-                    statusColor = 'bg-blue-50 text-blue-700';
-                    statusBadge = 'In Use';
-                    break;
-                case 'maintenance':
-                    statusColor = 'bg-amber-50 text-amber-700';
-                    statusBadge = 'Maintenance';
-                    break;
-                default:
-                    statusColor = 'bg-slate-100 text-slate-600';
-                    statusBadge = 'Unknown';
-            }
-        } else {
-            // MEMBER TERMINOLOGY
-            switch (asset.status) {
-                case 'active':
-                    if (asset.quantity > 0) {
-                        statusColor = 'bg-emerald-100 text-emerald-800 border border-emerald-200';
-                        statusBadge = 'Ready to Borrow';
-                    } else {
-                        statusColor = 'bg-slate-100 text-slate-500 border border-slate-200';
-                        statusBadge = 'Out of Stock';
-                    }
-                    break;
-                case 'in_use':
-                    statusColor = 'bg-blue-50 text-blue-600 border border-blue-100';
-                    statusBadge = 'Currently Borrowed';
-                    break;
-                case 'maintenance':
-                    statusColor = 'bg-slate-100 text-slate-400 border border-slate-200';
-                    statusBadge = 'Unavailable';
-                    break;
-                default:
-                    statusColor = 'bg-slate-100 text-slate-400';
-                    statusBadge = 'Unavailable';
-            }
+        switch (asset.status) {
+            case 'active':
+                statusColor = 'bg-emerald-50 text-emerald-700';
+                statusBadge = 'Available';
+                break;
+            case 'in_use':
+                statusColor = 'bg-blue-50 text-blue-700';
+                statusBadge = 'In Use';
+                break;
+            case 'maintenance':
+                statusColor = 'bg-amber-50 text-amber-700';
+                statusBadge = 'Maintenance';
+                break;
+            default:
+                statusColor = 'bg-slate-100 text-slate-600';
+                statusBadge = 'Unknown';
         }
 
-        // --- Role-Based Action Buttons ---
-        let actions = '';
-
-        if (isAdmin) {
-            // Admin: Edit / Delete
-            actions = `
-                <div class="flex items-center justify-end gap-1">
-                    <button onclick="editAsset(${asset.id})" class="p-1.5 text-slate-400 hover:text-primary transition-colors" title="Edit">
-                        <span class="material-symbols-outlined text-lg">edit_note</span>
-                    </button>
-                    <button onclick="deleteAsset(${asset.id})" class="p-1.5 text-slate-400 hover:text-red-500 transition-colors" title="Delete">
-                        <span class="material-symbols-outlined text-lg">delete</span>
-                    </button>
-                </div>
-            `;
-        } else {
-            // Member: Borrow / Unavailable
-            if (asset.status === 'active' && asset.quantity > 0) {
-                actions = `<button class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-sm font-bold hover:shadow-lg hover:shadow-primary/20 transition-all" onclick="initBorrow(${asset.id}, '${asset.name}')">Request Borrow</button>`;
-            } else {
-                actions = `<span class="px-3 py-1 bg-slate-50 text-slate-400 rounded-lg text-xs font-bold uppercase tracking-widest">Unavailable</span>`;
-            }
-        }
+        // --- Admin Actions ---
+        const actions = `
+            <div class="flex items-center justify-end gap-1">
+                <button onclick="editAsset(${asset.id})" class="p-1.5 text-slate-400 hover:text-primary transition-colors" title="Edit">
+                    <span class="material-symbols-outlined text-lg">edit_note</span>
+                </button>
+                <button onclick="deleteAsset(${asset.id})" class="p-1.5 text-slate-400 hover:text-red-500 transition-colors" title="Delete">
+                    <span class="material-symbols-outlined text-lg">delete</span>
+                </button>
+            </div>
+        `;
 
         // Construct Row HTML
         tr.innerHTML = `
@@ -192,7 +143,7 @@ function displayAssets() {
 }
 
 /**
- * Updates the dashboard counter cards with live data.
+ * Updates the dashboard counter cards (Admin View).
  */
 function updateStats() {
     const total = assets.length;
@@ -203,43 +154,19 @@ function updateStats() {
     const elInUse = document.getElementById('inUseCount');
     const elMaintenance = document.getElementById('maintenanceCount');
 
-    // ADMIN STATS
     if (elTotal) elTotal.textContent = total;
     if (elInUse) elInUse.textContent = inUse;
     if (elMaintenance) elMaintenance.textContent = maintenance;
-
-    // MEMBER STATS
-    const elMemAvail = document.getElementById('memberAvailableCount');
-    const elMemActive = document.getElementById('memberActiveBorrows');
-    const elMemPending = document.getElementById('memberPendingRequests');
-
-    if (elMemAvail) {
-        // Available Assets (calculated locally)
-        const available = assets.filter(a => a.status === 'active' && a.quantity > 0).length;
-        elMemAvail.textContent = available;
-
-        // Fetch User Specific Stats from Backend
-        fetch('/ukm/public/api/dashboard/index') // Using existing dashboard stats endpoint which we updated
-            .then(res => res.json())
-            .then(res => {
-                if (res.status === 'success') {
-                    if (elMemActive) elMemActive.textContent = res.data.your_active_borrows || 0;
-                    if (elMemPending) elMemPending.textContent = res.data.your_pending_requests || 0;
-                }
-            })
-            .catch(e => console.error("Stats Error", e));
-    }
 }
 
 /**
- * Dynamically populates the Category filter dropdown based on unique categories in the dataset.
+ * Dynamically populates the Category filter dropdown.
  */
 function populateCategories() {
     const categories = [...new Set(assets.map(a => a.category))];
     const select = document.getElementById('filterCategory');
     if (!select) return;
 
-    // Reset options (keep first "All" option)
     while (select.options.length > 1) {
         select.remove(1);
     }
@@ -253,24 +180,23 @@ function populateCategories() {
 }
 
 /**
- * Sorts and filters the asset list based on user input.
- * Triggered by: Search Input, Category Select, Status Select
+ * Sorts and filters the asset list.
  */
 function filterAssets() {
-    const searchEl = document.getElementById('searchInput');
+    const searchEl = document.getElementById('searchInput'); // Header search if exists
     const tableSearchEl = document.getElementById('tableSearchInput');
     const categoryEl = document.getElementById('filterCategory');
     const statusEl = document.getElementById('filterStatus');
 
-    if (!searchEl || !categoryEl || !statusEl) return;
+    if (!categoryEl || !statusEl) return;
 
-    const search = searchEl.value.toLowerCase();
+    const search = searchEl ? searchEl.value.toLowerCase() : '';
     const tableSearch = tableSearchEl ? tableSearchEl.value.toLowerCase() : '';
     const category = categoryEl.value;
     const status = statusEl.value;
 
     filteredAssets = assets.filter(asset => {
-        const matchesHeaderSearch = asset.name.toLowerCase().includes(search) ||
+        const matchesHeaderSearch = !search || asset.name.toLowerCase().includes(search) ||
             (asset.code && asset.code.toLowerCase().includes(search));
         const matchesTableSearch = !tableSearch ||
             asset.name.toLowerCase().includes(tableSearch) ||
@@ -285,7 +211,7 @@ function filterAssets() {
 }
 
 /**
- * Updates the pagination text (e.g., "Showing 1 to 10 of 50").
+ * Updates pagination info.
  */
 function updatePagination() {
     const info = document.getElementById('paginationInfo');
@@ -296,30 +222,21 @@ function updatePagination() {
 
 // --- Helper Functions ---
 
-/**
- * Formats a ISO date string into a readable format (e.g., "Jan 1, 2024")
- */
 function formatDate(dateString) {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
-/**
- * Resets the Asset Form to its default state for creating a new asset.
- */
 function clearAssetForm() {
-    document.getElementById('assetForm').reset();
+    const form = document.getElementById('assetForm');
+    if (form) form.reset();
     document.getElementById('assetId').value = '';
-    document.getElementById('quantity').value = '1';       // Enforce Single Quantity Rule
+    document.getElementById('quantity').value = '1';
     document.getElementById('assetStatus').value = 'active';
     document.getElementById('modalTitle').textContent = 'Register New Asset';
 }
 
-/**
- * Pre-fills and opens the Asset Modal for editing an existing asset.
- * @param {number} id - The ID of the asset to edit
- */
 function editAsset(id) {
     const asset = assets.find(a => a.id === id);
     if (!asset) return;
@@ -336,9 +253,6 @@ function editAsset(id) {
     document.getElementById('assetModal').classList.remove('hidden');
 }
 
-/**
- * Submits the Asset Form (Create or Update).
- */
 function handleAssetSubmit(e) {
     e.preventDefault();
 
@@ -366,18 +280,13 @@ function handleAssetSubmit(e) {
             if (data.status === 'success') {
                 document.getElementById('assetModal').classList.add('hidden');
                 loadAssets();
-                // Success feedback handled via toast if extended or implicit by modal closing
             } else {
-                showToast('Error: ' + (data.message || 'Unknown error'), 'error');
+                alert('Error: ' + (data.message || 'Unknown error'));
             }
         })
         .catch(error => console.error('Error:', error));
 }
 
-/**
- * Deletes an asset after confirmation.
- * @param {number} id - Asset ID
- */
 function deleteAsset(id) {
     if (!confirm('Are you sure you want to delete this asset?')) return;
 
@@ -391,74 +300,22 @@ function deleteAsset(id) {
             if (data.status === 'success') {
                 loadAssets();
             } else {
-                showToast('Error: ' + (data.message || 'Unknown error'), 'error');
+                alert('Error: ' + (data.message || 'Unknown error'));
             }
         })
         .catch(error => console.error('Error:', error));
 }
 
-/**
- * Opens the Borrow Modal for a specific asset.
- * @param {number} id - Asset ID
- * @param {string} name - Asset Name
- */
-function initBorrow(id, name) {
-    document.getElementById('borrowAssetId').value = id;
-    document.getElementById('borrowAssetName').textContent = name;
-    document.getElementById('borrowModal').classList.remove('hidden');
-}
-
-/**
- * Handles the submission of a Borrow Request.
- */
-function handleBorrowSubmit(e) {
-    e.preventDefault();
-
-    const formData = {
-        asset_id: document.getElementById('borrowAssetId').value,
-        quantity: document.getElementById('quantity').value,
-        start_date: document.getElementById('startDate').value,
-        end_date: document.getElementById('endDate').value,
-        purpose: document.getElementById('purpose').value
-    };
-
-    fetch('/ukm/public/api/borrow/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                document.getElementById('borrowModal').classList.add('hidden');
-                document.getElementById('borrowForm').reset();
-                showToast('Borrow request submitted successfully!', 'success');
-                loadAssets();
-            } else {
-                showToast('Error: ' + (data.message || 'Unknown error'), 'error');
-            }
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-/**
- * Generates and downloads a CSV export of the current asset list.
- */
 function exportToCSV() {
     if (!filteredAssets || filteredAssets.length === 0) {
-        showToast('No assets to export.', 'warning');
+        alert('No assets to export.');
         return;
     }
 
-    // Define columns
-    const headers = ['Name', 'Code', 'Category', 'Status', 'Location', 'Quantity', 'Added Date'];
+    const headers = ['Name', 'Category', 'Status', 'Location', 'Quantity', 'Added Date'];
 
-    // Map data
     const rows = filteredAssets.map(asset => [
-        `"${asset.name.replace(/"/g, '""')}"`, // Escape quotes
-        `"${asset.code || ''}"`,
+        `"${asset.name.replace(/"/g, '""')}"`,
         `"${asset.category || ''}"`,
         `"${asset.status}"`,
         `"${asset.location || ''}"`,
@@ -466,18 +323,12 @@ function exportToCSV() {
         `"${formatDate(asset.created_at)}"`
     ]);
 
-    // Combine headers and rows
-    const csvContent = [
-        headers.join(','),
-        ...rows.map(r => r.join(','))
-    ].join('\n');
-
-    // Create download link
+    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `asset_inventory_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `asset_inventory_admin.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();

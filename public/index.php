@@ -1,7 +1,8 @@
 <?php
-// Load Environment Variables
-require_once __DIR__ . '/../app/core/Env.php';
-Env::load(__DIR__ . '/../.env');
+// Load Environment Variables (Native PHP)
+if (file_exists(__DIR__ . '/../app/config/env.php')) {
+    require_once __DIR__ . '/../app/config/env.php';
+}
 
 // Configure Error Reporting based on Environment
 if (getenv('DISPLAY_ERRORS') === '1') {

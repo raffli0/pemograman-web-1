@@ -54,15 +54,37 @@ class DashboardController
         $stmt->execute();
         $verifications = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
 
-        // 6. Activity Logs (Recent 7)
+        // 6. Activity Logs (Recent 7) - Generic for now, maybe filter by user later
         $stmt = $this->logger->getLogs($org_id, 7);
         $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // MEMBER SPECIFIC STATS
+        $your_borrows = 0;
+        $your_pending = 0;
+
+        if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
+            // Your Active
+            $q = "SELECT COUNT(*) as count FROM borrow_requests WHERE user_id = :uid AND status='approved'";
+            $s = $this->conn->prepare($q);
+            $s->bindParam(':uid', $user['id']);
+            $s->execute();
+            $your_borrows = $s->fetch(PDO::FETCH_ASSOC)['count'];
+
+            // Your Pending
+            $q = "SELECT COUNT(*) as count FROM borrow_requests WHERE user_id = :uid AND status='pending'";
+            $s = $this->conn->prepare($q);
+            $s->bindParam(':uid', $user['id']);
+            $s->execute();
+            $your_pending = $s->fetch(PDO::FETCH_ASSOC)['count'];
+        }
 
         Response::json('success', 'Dashboard stats', [
             'total_assets' => $assets,
             'active_borrows' => $active_borrows,
             'pending_requests' => $pending,
             'pending_verifications' => $verifications,
+            'your_active_borrows' => $your_borrows,
+            'your_pending_requests' => $your_pending,
             'logs' => $logs
         ]);
     }
