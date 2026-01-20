@@ -1,7 +1,9 @@
 <?php
-require_once __DIR__ . '/../../app/core/AuthMiddleware.php';
+require_once __DIR__ . '/../../../app/core/AuthMiddleware.php';
+require_once __DIR__ . '/../../../app/core/RoleMiddleware.php';
 $user = AuthMiddleware::authenticate();
-$isAdmin = ($user['role'] === 'org_admin');
+RoleMiddleware::authorize(['org_admin', 'super_admin']);
+$isAdmin = true;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,11 +68,11 @@ $isAdmin = ($user['role'] === 'org_admin');
 
 <body class="bg-background-light text-slate-900 h-screen flex overflow-hidden">
 
-    <?php include 'sidebar.php'; ?>
+    <?php include '../sidebar.php'; ?>
 
     <main class="flex-1 overflow-y-auto h-screen flex flex-col">
         <!-- Sticky Header -->
-        <?php include 'header.php'; ?>
+        <?php include '../header.php'; ?>
 
         <div class="p-8 max-w-7xl mx-auto w-full">
             <!-- Page Heading -->
@@ -80,7 +82,7 @@ $isAdmin = ($user['role'] === 'org_admin');
                         class="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
                         <a href="dashboard.php" class="hover:text-primary transition-colors">Transactions</a>
                         <span class="material-symbols-outlined text-[10px]">chevron_right</span>
-                        <span class="text-slate-900">Borrowing Requests</span>
+                        <span class="text-slate-900">Access Requests</span>
                     </nav>
                     <h1 class="text-3xl font-black text-slate-900 tracking-tight">Access Requests</h1>
                     <p class="text-slate-500 mt-1 font-medium">Review and process ongoing material requisitions.</p>
@@ -141,57 +143,11 @@ $isAdmin = ($user['role'] === 'org_admin');
         </div>
 
         <div class="py-6 text-center">
-            <?php include 'footer.php'; ?>
+            <?php include '../footer.php'; ?>
         </div>
     </main>
 
-    <!-- Return Submission Modal -->
-    <div id="returnSubmitModal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden">
-            <div class="px-8 pt-8 pb-6">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="size-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-                        <span class="material-symbols-outlined text-2xl">assignment_return</span>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-900">Return Asset</h3>
-                        <p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Operational Documentation
-                        </p>
-                    </div>
-                </div>
-
-                <form id="returnSubmitForm" class="space-y-5">
-                    <input type="hidden" id="returnBorrowId">
-                    <div>
-                        <label
-                            class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Asset
-                            Condition Report</label>
-                        <textarea id="returnConditionNote" required rows="4"
-                            class="w-full px-4 py-3 bg-slate-50 border-2 border-transparent focus:border-primary/20 focus:bg-white rounded-2xl text-sm transition-all focus:ring-0 placeholder:text-slate-400"
-                            placeholder="Describe the asset condition..."></textarea>
-                    </div>
-                    <div>
-                        <label
-                            class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Condition
-                            Proof</label>
-                        <input type="file" id="returnProofImage" accept="image/png, image/jpeg, application/pdf"
-                            class="w-full bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 rounded-lg px-4 py-2.5 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20">
-                    </div>
-
-                    <div class="flex gap-3 pt-2">
-                        <button type="button"
-                            onclick="document.getElementById('returnSubmitModal').classList.add('hidden')"
-                            class="flex-1 px-6 py-3 border-2 border-slate-100 text-slate-500 rounded-2xl text-sm font-bold hover:bg-slate-50 transition-all">Cancel</button>
-                        <button type="submit" id="submitReturnBtn"
-                            class="flex-3 px-8 py-3 bg-primary text-white rounded-2xl text-sm font-bold hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all">
-                            Submit Return
-                        </button>
-                    </div>
-                </form>
-            </div>
         </div>
-    </div>
 
     <!-- Admin Verify Modal -->
     <div id="verifyReturnModal" class="fixed inset-0 z-[60] hidden" aria-labelledby="modal-title" role="dialog"
@@ -283,8 +239,8 @@ $isAdmin = ($user['role'] === 'org_admin');
     </div>
 
     <!-- Scripts -->
-    <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/borrow.js"></script>
+    <script src="/ukm/public/assets/js/auth.js"></script>
+    <script src="/ukm/public/assets/js/borrow.js"></script>
     <script>
         window.isAdmin = <?php echo json_encode($isAdmin); ?>;
         document.addEventListener('DOMContentLoaded', () => loadRequests(window.isAdmin));

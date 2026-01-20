@@ -38,13 +38,19 @@ $user = $user ?? AuthMiddleware::authenticate(); // Ensure user is available
             </a>
         <?php endif; ?>
 
-        <?php if ($user['role'] !== 'super_admin'): ?>
-            <a href="/ukm/public/pages/borrow.php"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo $currentPage == 'borrow.php' ? 'bg-primary/10 text-primary font-semibold count-badge-container' : 'text-slate-600 hover:bg-slate-50 relative'; ?>">
+        <?php if ($user['role'] === 'super_admin' || $user['role'] === 'org_admin'): ?>
+            <a href="/ukm/public/pages/admin/borrow.php"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], '/admin/borrow.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
                 <span class="material-symbols-outlined"
-                    style="<?php echo $currentPage == 'borrow.php' ? "font-variation-settings: 'FILL' 1" : ''; ?>">move_to_inbox</span>
+                    style="<?php echo strpos($_SERVER['PHP_SELF'], '/admin/borrow.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">swap_horiz</span>
                 <span class="text-sm">Requests</span>
-                <!-- We can add a dynamic badge here if needed via JS -->
+            </a>
+        <?php else: ?>
+            <a href="/ukm/public/pages/member/borrow.php"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], '/member/borrow.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
+                <span class="material-symbols-outlined"
+                    style="<?php echo strpos($_SERVER['PHP_SELF'], '/member/borrow.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">swap_horiz</span>
+                <span class="text-sm">My Requests</span>
             </a>
         <?php endif; ?>
 
