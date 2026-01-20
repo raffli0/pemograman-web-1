@@ -46,11 +46,11 @@ $user = $user ?? AuthMiddleware::authenticate(); // Ensure user is available
                 <span class="text-sm">Requests</span>
             </a>
         <?php else: ?>
-            <a href="/ukm/public/pages/member/borrow.php"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], '/member/borrow.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
+            <a href="/ukm/public/pages/member/borrow-requests.php"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors <?php echo strpos($_SERVER['PHP_SELF'], '/member/borrow-requests.php') !== false ? 'bg-primary/10 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50'; ?>">
                 <span class="material-symbols-outlined"
-                    style="<?php echo strpos($_SERVER['PHP_SELF'], '/member/borrow.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">swap_horiz</span>
-                <span class="text-sm">My Requests</span>
+                    style="<?php echo strpos($_SERVER['PHP_SELF'], '/member/borrow-requests.php') !== false ? "font-variation-settings: 'FILL' 1" : ''; ?>">swap_horiz</span>
+                <span class="text-sm">My Borrowing Requests</span>
             </a>
         <?php endif; ?>
 

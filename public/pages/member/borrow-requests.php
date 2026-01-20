@@ -1,8 +1,6 @@
 <?php
 require_once __DIR__ . '/../../../app/core/AuthMiddleware.php';
 $user = AuthMiddleware::authenticate();
-$user = AuthMiddleware::authenticate();
-$isAdmin = false;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +8,7 @@ $isAdmin = false;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Requests - Campus Admin</title>
+    <title>My Borrowing Requests - Member</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&display=swap"
@@ -26,6 +24,8 @@ $isAdmin = false;
                 extend: {
                     colors: {
                         "primary": "#006e7a",
+                        "status-green": "#339933",
+                        "status-orange": "#CC801A",
                         "background-light": "#f5f8f8",
                         "background-dark": "#0f2123",
                     },
@@ -83,8 +83,8 @@ $isAdmin = false;
                         <span class="material-symbols-outlined text-[10px]">chevron_right</span>
                         <span class="text-slate-900">Borrowing Requests</span>
                     </nav>
-                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Access Requests</h1>
-                    <p class="text-slate-500 mt-1 font-medium">Review and process ongoing material requisitions.</p>
+                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">My Borrowing Requests</h1>
+                    <p class="text-slate-500 mt-1 font-medium">Track the status of your asset borrowing activity.</p>
                 </div>
             </div>
 
@@ -92,14 +92,12 @@ $isAdmin = false;
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
                 <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center">
                     <div>
-                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Access Requisition List</h3>
-                        <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">Logistics Control
-                            Registry</p>
+                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">My Requests</h3>
                     </div>
                     <div class="relative">
                         <span
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">filter_list</span>
-                        <input type="text" id="tableFilter" placeholder="Filter by status..."
+                        <input type="text" id="tableFilter" placeholder="Search my requests..."
                             class="pl-9 pr-4 py-1.5 bg-slate-50 border-none rounded-lg text-xs focus:ring-2 focus:ring-primary/20 transition-all">
                     </div>
                 </div>
@@ -109,21 +107,19 @@ $isAdmin = false;
                             <tr class="border-b border-slate-100">
                                 <th
                                     class="text-left py-4 px-8 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                    Borrower</th>
+                                    Asset Name</th>
                                 <th
                                     class="text-left py-4 px-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                    Asset Item</th>
+                                    Requested Duration</th>
                                 <th
                                     class="text-left py-4 px-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                    Duration</th>
+                                    Request Date</th>
                                 <th
                                     class="text-left py-4 px-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                                     Status</th>
-                                <?php if ($isAdmin): ?>
-                                    <th
-                                        class="text-right py-4 px-8 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                        Resolution</th>
-                                <?php endif; ?>
+                                <th
+                                    class="text-right py-4 px-8 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                                    Action</th>
                             </tr>
                         </thead>
                         <tbody id="borrowTableBody" class="divide-y divide-slate-50">
@@ -146,7 +142,7 @@ $isAdmin = false;
         </div>
     </main>
 
-    <!-- Return Submission Modal -->
+    <!-- Return Asset Modal -->
     <div id="returnSubmitModal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden">
@@ -157,7 +153,8 @@ $isAdmin = false;
                     </div>
                     <div>
                         <h3 class="text-xl font-bold text-slate-900">Return Asset</h3>
-                        <p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Operational Documentation
+                        <p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Confirm the asset
+                            condition before completing the return
                         </p>
                     </div>
                 </div>
@@ -167,15 +164,15 @@ $isAdmin = false;
                     <div>
                         <label
                             class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Asset
-                            Condition Report</label>
+                            Condition Notes</label>
                         <textarea id="returnConditionNote" required rows="4"
                             class="w-full px-4 py-3 bg-slate-50 border-2 border-transparent focus:border-primary/20 focus:bg-white rounded-2xl text-sm transition-all focus:ring-0 placeholder:text-slate-400"
                             placeholder="Describe the asset condition..."></textarea>
                     </div>
                     <div>
                         <label
-                            class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Condition
-                            Proof</label>
+                            class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Upload
+                            Condition Proof (optional)</label>
                         <input type="file" id="returnProofImage" accept="image/png, image/jpeg, application/pdf"
                             class="w-full bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 rounded-lg px-4 py-2.5 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20">
                     </div>
@@ -195,15 +192,8 @@ $isAdmin = false;
     </div>
 
     <!-- Scripts -->
-
-    <!-- Scripts -->
     <script src="/ukm/public/assets/js/auth.js"></script>
-    <script src="/ukm/public/assets/js/borrow.js"></script>
-    <script>
-        window.isAdmin = <?php echo json_encode($isAdmin); ?>;
-        document.addEventListener('DOMContentLoaded', () => loadRequests(window.isAdmin));
-    </script>
-
+    <script src="/ukm/public/assets/js/member_borrow.js"></script>
 </body>
 
 </html>
