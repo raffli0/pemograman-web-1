@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../../app/core/AuthMiddleware.php';
 $user = AuthMiddleware::authenticate();
 
 // Ensure only admins can access
-if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
+if ($user['role'] !== 'org_admin') {
     header("Location: dashboard.php");
     exit;
 }
@@ -55,7 +55,7 @@ if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
 
 <body class="bg-background-light text-slate-900 h-screen flex overflow-hidden">
 
-    <?php include '../sidebar.php'; ?>
+    <?php include '../partials/sidebar-admin.php'; ?>
 
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col overflow-y-auto h-screen">

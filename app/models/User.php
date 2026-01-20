@@ -68,4 +68,47 @@ class User
         $stmt->execute();
         return $stmt;
     }
+
+    // For Super Admin to list ALL users
+    public function getAllGlobal()
+    {
+        $query = "SELECT u.id, u.name, u.email, u.role, u.organization_id, u.created_at, o.name as organization_name 
+                  FROM " . $this->table_name . " u 
+                  LEFT JOIN organizations o ON u.organization_id = o.id 
+                  ORDER BY u.created_at DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function update($id, $name, $email, $role, $password = null)
+    {
+        $query = "UPDATE " . $this->table_name . " SET name = :name, email = :email, role = :role";
+        if ($password) {
+            $query .= ", password = :password";
+        }
+        $query .= " WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":name", $name);
+        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":role", $role);
+        $stmt->bindParam(":id", $id);
+
+        if ($password) {
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $stmt->bindParam(":password", $hashed_password);
+        }
+
+        return $stmt->execute();
+    }
+
+    public function delete($id)
+    {
+        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
+        return $stmt->execute();
+    }
 }

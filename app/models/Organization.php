@@ -36,7 +36,11 @@ class Organization
     // For Super Admin
     public function readAll()
     {
-        $query = "SELECT * FROM " . $this->table_name . " ORDER BY created_at DESC";
+        // Subquery to get one org_admin per organization
+        $query = "SELECT o.*, 
+                  (SELECT u.name FROM users u WHERE u.organization_id = o.id AND u.role = 'org_admin' LIMIT 1) as owner_name 
+                  FROM " . $this->table_name . " o 
+                  ORDER BY o.created_at DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -47,6 +51,25 @@ class Organization
         $query = "UPDATE " . $this->table_name . " SET status=:status WHERE id=:id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":status", $status);
+        $stmt->bindParam(":id", $id);
+        return $stmt->execute();
+    }
+
+    public function update($id, $name)
+    {
+        $query = "UPDATE " . $this->table_name . " SET name=:name WHERE id=:id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":name", $name);
+        $stmt->bindParam(":id", $id);
+        return $stmt->execute();
+    }
+
+    public function delete($id)
+    {
+        // Note: In a real system, you'd likely soft delete or check foreign keys first.
+        // For this task, we'll perform a hard delete. 
+        $query = "DELETE FROM " . $this->table_name . " WHERE id=:id";
+        $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $id);
         return $stmt->execute();
     }

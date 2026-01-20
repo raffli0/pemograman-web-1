@@ -24,7 +24,7 @@
 
     <!-- Background decorative elements -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div <div
+        <div
             class="absolute top-0 -left-4 w-72 h-72 bg-emerald-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float">
         </div>
         <div class="absolute top-0 -right-4 w-72 h-72 bg-slate-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"

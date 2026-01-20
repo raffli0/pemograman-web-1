@@ -67,7 +67,7 @@ $user = AuthMiddleware::authenticate();
 
 <body class="bg-background-light text-slate-900 h-screen flex overflow-hidden">
 
-    <?php include '../sidebar.php'; ?>
+    <?php include '../partials/sidebar-member.php'; ?>
 
     <main class="flex-1 overflow-y-auto h-screen flex flex-col">
         <!-- Sticky Header -->
@@ -193,7 +193,7 @@ $user = AuthMiddleware::authenticate();
 
     <!-- Scripts -->
     <script src="/ukm/public/assets/js/auth.js"></script>
-    <script src="/ukm/public/assets/js/member_borrow.js"></script>
+    <script src="/ukm/public/assets/js/member/borrow.js"></script>
 </body>
 
 </html>

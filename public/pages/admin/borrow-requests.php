@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../../app/core/AuthMiddleware.php';
 require_once __DIR__ . '/../../../app/core/RoleMiddleware.php';
 $user = AuthMiddleware::authenticate();
-RoleMiddleware::authorize(['org_admin', 'super_admin']);
+RoleMiddleware::authorize(['org_admin']);
 $isAdmin = true;
 ?>
 <!DOCTYPE html>
@@ -68,7 +68,7 @@ $isAdmin = true;
 
 <body class="bg-background-light text-slate-900 h-screen flex overflow-hidden">
 
-    <?php include '../sidebar.php'; ?>
+    <?php include '../partials/sidebar-admin.php'; ?>
 
     <main class="flex-1 overflow-y-auto h-screen flex flex-col">
         <!-- Sticky Header -->
@@ -147,7 +147,7 @@ $isAdmin = true;
         </div>
     </main>
 
-        </div>
+    </div>
 
     <!-- Admin Verify Modal -->
     <div id="verifyReturnModal" class="fixed inset-0 z-[60] hidden" aria-labelledby="modal-title" role="dialog"
@@ -240,7 +240,7 @@ $isAdmin = true;
 
     <!-- Scripts -->
     <script src="/ukm/public/assets/js/auth.js"></script>
-    <script src="/ukm/public/assets/js/borrow.js"></script>
+    <script src="/ukm/public/assets/js/admin/borrow-approval.js"></script>
     <script>
         window.isAdmin = <?php echo json_encode($isAdmin); ?>;
         document.addEventListener('DOMContentLoaded', () => loadRequests(window.isAdmin));

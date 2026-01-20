@@ -55,7 +55,7 @@ $user = AuthMiddleware::authenticate();
 
 <body class="bg-background-light text-slate-900 h-screen flex overflow-hidden" data-role="member">
 
-    <?php include '../sidebar.php'; ?>
+    <?php include '../partials/sidebar-member.php'; ?>
 
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col overflow-y-auto h-screen">
@@ -251,7 +251,7 @@ $user = AuthMiddleware::authenticate();
 
     <!-- Auth & Logic -->
     <script src="../../assets/js/auth.js"></script>
-    <script src="../../assets/js/member_asset.js?v=<?php echo time(); ?>"></script>
+    <script src="../../assets/js/member/assets.js?v=<?php echo time(); ?>"></script>
 
 </body>
 

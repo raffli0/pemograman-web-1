@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../../app/core/AuthMiddleware.php';
 $user = AuthMiddleware::authenticate();
 
 // AUTHORIZATION CHECK
-if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
+if ($user['role'] !== 'org_admin') {
     header('Location: /ukm/public/pages/dashboard.php');
     exit;
 }
@@ -55,7 +55,7 @@ if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
 
 <body class="bg-background-light text-slate-900 h-screen flex overflow-hidden" data-role="admin">
 
-    <?php include '../sidebar.php'; ?>
+    <?php include '../partials/sidebar-admin.php'; ?>
 
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col overflow-y-auto h-screen">
@@ -287,7 +287,7 @@ if ($user['role'] !== 'org_admin' && $user['role'] !== 'super_admin') {
 
     <!-- Auth & Logic -->
     <script src="../../assets/js/auth.js"></script>
-    <script src="../../assets/js/admin_asset.js?v=<?php echo time(); ?>"></script>
+    <script src="../../assets/js/admin/assets.js?v=<?php echo time(); ?>"></script>
 
 </body>
 

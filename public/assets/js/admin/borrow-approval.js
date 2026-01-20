@@ -236,6 +236,7 @@ async function updateReqStatus(id, action) {
     try {
         const res = await fetchAPI(`/borrow/${action}`, 'POST', { id });
         if (res.status === 'success') {
+            const isAdmin = typeof window.isAdmin !== 'undefined' ? window.isAdmin : false;
             loadRequests(isAdmin);
         }
     } catch (err) {

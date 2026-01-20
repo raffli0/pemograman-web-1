@@ -67,7 +67,7 @@ RoleMiddleware::authorize(['org_admin']);
 
 <body class="bg-background-light text-slate-900 min-h-screen flex overflow-hidden">
 
-    <?php include '../sidebar.php'; ?>
+    <?php include '../partials/sidebar-admin.php'; ?>
 
     <main class="flex-1 overflow-y-auto h-full flex flex-col">
         <!-- Sticky Header -->
@@ -231,7 +231,7 @@ RoleMiddleware::authorize(['org_admin']);
 
     <!-- Scripts -->
     <script src="/ukm/public/assets/js/auth.js"></script>
-    <script src="/ukm/public/assets/js/return.js?v=<?php echo time(); ?>"></script>
+    <script src="/ukm/public/assets/js/admin/return.js?v=<?php echo time(); ?>"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => loadReturns());
     </script>

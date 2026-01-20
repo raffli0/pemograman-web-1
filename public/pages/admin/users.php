@@ -69,7 +69,7 @@ $isAdmin = ($user['role'] === 'org_admin');
 
 <body class="bg-background-light text-slate-900 h-screen flex overflow-hidden">
 
-    <?php include '../sidebar.php'; ?>
+    <?php include '../partials/sidebar-admin.php'; ?>
 
     <main class="flex-1 overflow-y-auto h-screen flex flex-col">
         <!-- Sticky Header -->
@@ -238,7 +238,7 @@ $isAdmin = ($user['role'] === 'org_admin');
 
     <!-- Scripts -->
     <script src="/ukm/public/assets/js/auth.js"></script>
-    <script src="/ukm/public/assets/js/user.js"></script>
+    <script src="/ukm/public/assets/js/admin/users.js?v=<?php echo time(); ?>"></script>
 
 </body>
 

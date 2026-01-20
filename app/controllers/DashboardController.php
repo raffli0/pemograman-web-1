@@ -15,7 +15,7 @@ class DashboardController
         $this->logger = new ActivityLog();
     }
 
-    public function getStats()
+    public function index()
     {
         global $user;
         // Basic role check
@@ -86,6 +86,45 @@ class DashboardController
             'your_active_borrows' => $your_borrows,
             'your_pending_requests' => $your_pending,
             'logs' => $logs
+        ]);
+    }
+
+    public function getSuperAdminStats()
+    {
+        $user = AuthMiddleware::authenticate();
+        if ($user['role'] !== 'super_admin') {
+            Response::json('error', 'Unauthorized', [], 403);
+        }
+
+        // Total Organizations
+        $q = "SELECT COUNT(*) as count FROM organizations";
+        $stmt = $this->conn->prepare($q);
+        $stmt->execute();
+        $totalOrgs = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+
+        // Active Organizations
+        $q = "SELECT COUNT(*) as count FROM organizations WHERE status='active'";
+        $stmt = $this->conn->prepare($q);
+        $stmt->execute();
+        $activeOrgs = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+
+        // Total Users
+        $q = "SELECT COUNT(*) as count FROM users";
+        $stmt = $this->conn->prepare($q);
+        $stmt->execute();
+        $totalUsers = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+
+        // Recent Organizations (Last 5)
+        $q = "SELECT name, status, created_at FROM organizations ORDER BY created_at DESC LIMIT 5";
+        $stmt = $this->conn->prepare($q);
+        $stmt->execute();
+        $recentOrgs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        Response::json('success', 'Superadmin Stats', [
+            'total_orgs' => $totalOrgs,
+            'active_orgs' => $activeOrgs,
+            'total_users' => $totalUsers,
+            'recent_orgs' => $recentOrgs
         ]);
     }
 }
