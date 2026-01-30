@@ -4,8 +4,18 @@ A multi-organization web application for managing asset tracking and borrowing r
 
 **Live Demo**: [https://raffdev.my.id](https://raffdev.my.id)
 
-## Preview
+## Preview Admin
 <img width="1918" height="921" alt="image" src="https://github.com/user-attachments/assets/8727fef8-3177-46c6-bb5f-3967acc95e95" />
+<img width="1912" height="913" alt="image" src="https://github.com/user-attachments/assets/53dcbf9e-e292-4f1e-b217-b0c875de90b9" />
+<img width="1918" height="917" alt="image" src="https://github.com/user-attachments/assets/bf9ec6b3-7c57-44a4-a8ec-36998fc8352d" />
+<img width="1909" height="914" alt="image" src="https://github.com/user-attachments/assets/fc150c60-3c03-40c5-96fc-78d9fedbb273" />
+<img width="1911" height="917" alt="image" src="https://github.com/user-attachments/assets/abf6c122-ba59-420f-bc4a-ec934ba635dd" />
+<img width="1917" height="915" alt="image" src="https://github.com/user-attachments/assets/3a679057-025f-45d1-bdeb-648bd5867a31" />
+
+## Preview User
+<img width="1914" height="916" alt="image" src="https://github.com/user-attachments/assets/7fd19115-f134-4cae-8575-8b0c1d48ceac" />
+<img width="1910" height="915" alt="image" src="https://github.com/user-attachments/assets/939ba5d0-1e0e-45fb-b4ad-941a97087638" />
+
 
 
 ## Fitur
