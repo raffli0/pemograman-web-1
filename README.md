@@ -2,7 +2,11 @@
 
 A multi-organization web application for managing asset tracking and borrowing requests. Built with Native PHP (No Framework) and Tailwind CSS.
 
-**🌐 Live Demo**: [https://raffdev.my.id](https://raffdev.my.id)
+**Live Demo**: [https://raffdev.my.id](https://raffdev.my.id)
+
+## Preview
+<img width="1918" height="921" alt="image" src="https://github.com/user-attachments/assets/8727fef8-3177-46c6-bb5f-3967acc95e95" />
+
 
 ## Fitur
 - **Multi-Organization SaaS Architecture**: Multiple organizations with complete data isolation
