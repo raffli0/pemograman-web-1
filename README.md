@@ -4,13 +4,13 @@ A multi-organization web application for managing asset tracking and borrowing r
 
 **🌐 Live Demo**: [https://raffdev.my.id](https://raffdev.my.id)
 
-## Features
+## Fitur
 - **Multi-Organization SaaS Architecture**: Multiple organizations with complete data isolation
 - **Role-Based Access**:
-  - **Super Admin**: Platform management and organization oversight
-  - **Organization Administrator**: Manages assets, users, and borrowing approvals
-  - **Member**: Requests assets and views borrowing history
-- **Borrowing Workflow**: Request → Approval → Auto-Stock Reduction → Return → Logging
+  - **Super Admin**: mengelola organisasi yang terdaftar
+  - **Organization Administrator**: Mengelola aset, pengguna, and pengajuan peminjaman
+  - **Member**: Meminjam aset dan melihat histori peminjaman
+- **Alur Kerja Peminjaman**: Pengajuan → Penyetujuan → Stok aset dikurangi otomatis → Pengembalian → Penyetujuan jika barang dikembalikkan dalam kondisi baik
 - **Secure Authentication**: JWT stored in HttpOnly cookies
 - **Responsive UI**: Built with Tailwind CSS and custom theming
 
@@ -110,6 +110,3 @@ npm run watch   # Watch mode for development
 Copyright © 2025 Raffly - 23552011278 CNS A
 
 ---
-
-**Project Status**: ✅ Live in Production  
-**Deployed**: January 2025
